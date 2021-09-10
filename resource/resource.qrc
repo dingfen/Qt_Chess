@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/chess.png</file>
+        <file>img/chess.qrc</file>
+        <file>img/chess_board.png</file>
+        <file>img/icon.png</file>
+        <file>img/startgame.png</file>
+        <file>img/loadgame.png</file>
+        <file>img/savegame.png</file>
+        <file>img/labeled.png</file>
+    </qresource>
+    <qresource prefix="/game">
+        <file>savegame/opening.json</file>
+    </qresource>
+</RCC>

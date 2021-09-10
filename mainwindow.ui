@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1300</width>
+    <height>1300</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>中国象棋</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resource/resource.qrc">
+    <normaloff>:/img/img/icon.png</normaloff>:/img/img/icon.png</iconset>
+  </property>
+  <property name="toolTipDuration">
+   <number>-1</number>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QGraphicsView" name="chessboard">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+      <property name="backgroundBrush">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>211</red>
+         <green>194</green>
+         <blue>153</blue>
+        </color>
+       </brush>
+      </property>
+      <property name="sceneRect">
+       <rectf>
+        <x>0.000000000000000</x>
+        <y>0.000000000000000</y>
+        <width>1100.000000000000000</width>
+        <height>1111.000000000000000</height>
+       </rectf>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verlayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>你的回合</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="startbutton">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>开始游戏</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="regretbutton">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>悔棋</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="timerlabel">
+        <property name="text">
+         <string>30</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1300</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuChess">
+    <property name="title">
+     <string>游戏</string>
+    </property>
+    <addaction name="newGameAction"/>
+    <addaction name="loadGameAction"/>
+    <addaction name="saveGameAction"/>
+   </widget>
+   <addaction name="menuChess"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="newGameAction">
+   <property name="icon">
+    <iconset>
+     <normalon>:/img/img/startgame.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>新游戏</string>
+   </property>
+   <property name="statusTip">
+    <string>开始一局新的游戏</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="loadGameAction">
+   <property name="icon">
+    <iconset>
+     <normalon>:/img/img/loadgame.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>载入游戏</string>
+   </property>
+   <property name="statusTip">
+    <string>载入一局游戏</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="saveGameAction">
+   <property name="icon">
+    <iconset>
+     <normalon>:/img/img/savegame.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>保存游戏</string>
+   </property>
+   <property name="statusTip">
+    <string>保存当前游戏</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resource/resource.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>newGameAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>startGame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>649</x>
+     <y>599</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>startGame()</slot>
+ </slots>
+</ui>

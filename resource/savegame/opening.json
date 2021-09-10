@@ -1,0 +1,164 @@
+[
+    {   "Type": "Rook",
+        "Color": "Black",
+        "X": 1,
+        "Y": 1
+    },
+    {   "Type": "Knight",
+        "Color": "Black",
+        "X": 2,
+        "Y": 1
+    },
+    {   "Type": "Bishop",
+        "Color": "Black",
+        "X": 3,
+        "Y": 1
+    },
+    {   "Type": "Guard",
+        "Color": "Black",
+        "X": 4,
+        "Y": 1
+    },
+    {   "Type": "King",
+        "Color": "Black",
+        "X": 5,
+        "Y": 1
+    },
+    {   "Type": "Guard",
+        "Color": "Black",
+        "X": 6,
+        "Y": 1
+    },
+    {   "Type": "Bishop",
+        "Color": "Black",
+        "X": 7,
+        "Y": 1
+    },
+    {   "Type": "Knight",
+        "Color": "Black",
+        "X": 8,
+        "Y": 1
+    },
+    {   "Type": "Rook",
+        "Color": "Black",
+        "X": 9,
+        "Y": 1
+    },
+    {   "Type":"Cannon",
+        "Color": "Black",
+        "X": 2,
+        "Y": 3
+    },
+    {   "Type":"Cannon",
+        "Color": "Black",
+        "X": 8,
+        "Y": 3
+    },
+    {   "Type":"Pawn",
+        "Color": "Black",
+        "X": 1,
+        "Y": 4
+    },
+    {   "Type":"Pawn",
+        "Color": "Black",
+        "X": 3,
+        "Y": 4
+    },
+    {   "Type":"Pawn",
+        "Color": "Black",
+        "X": 5,
+        "Y": 4
+    },
+    {   "Type":"Pawn",
+        "Color": "Black",
+        "X": 7,
+        "Y": 4
+    },
+    {   "Type":"Pawn",
+        "Color": "Black",
+        "X": 9,
+        "Y": 4
+    },
+
+
+{   "Type": "Rook",
+    "Color": "Red",
+    "X": 1,
+    "Y": 10
+},
+{   "Type": "Knight",
+    "Color": "Red",
+    "X": 2,
+    "Y": 10
+},
+{   "Type": "Bishop",
+    "Color": "Red",
+    "X": 3,
+    "Y": 10
+},
+{   "Type": "Guard",
+    "Color": "Red",
+    "X": 4,
+    "Y": 10
+},
+{   "Type": "King",
+    "Color": "Red",
+    "X": 5,
+    "Y": 10
+},
+{   "Type": "Guard",
+    "Color": "Red",
+    "X": 6,
+    "Y": 10
+},
+{   "Type": "Bishop",
+    "Color": "Red",
+    "X": 7,
+    "Y": 10
+},
+{   "Type": "Knight",
+    "Color": "Red",
+    "X": 8,
+    "Y": 10
+},
+{   "Type": "Rook",
+    "Color": "Red",
+    "X": 9,
+    "Y": 10
+},
+{   "Type":"Cannon",
+    "Color": "Red",
+    "X": 2,
+    "Y": 8
+},
+{   "Type":"Cannon",
+    "Color": "Red",
+    "X": 8,
+    "Y": 8
+},
+{   "Type":"Pawn",
+    "Color": "Red",
+    "X": 1,
+    "Y": 7
+},
+{   "Type":"Pawn",
+    "Color": "Red",
+    "X": 3,
+    "Y": 7
+},
+{   "Type":"Pawn",
+    "Color": "Red",
+    "X": 5,
+    "Y": 7
+},
+{   "Type":"Pawn",
+    "Color": "Red",
+    "X": 7,
+    "Y": 7
+},
+{   "Type":"Pawn",
+    "Color": "Red",
+    "X": 9,
+    "Y": 7
+}
+]
