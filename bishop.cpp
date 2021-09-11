@@ -13,6 +13,7 @@ BlackBishop::BlackBishop(const Mesh& mesh): Chess() {
 }
 
 void BlackBishop::init(int x, int y) {
+    is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(100, 0, 50, 50));
     setPoint(QPoint(x, y));
 }

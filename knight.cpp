@@ -13,6 +13,7 @@ BlackKnight::BlackKnight(const Mesh& mesh): Chess() {
 }
 
 void BlackKnight::init(int x, int y) {
+    is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(150, 0, 50, 50));
     setPoint(QPoint(x, y));
 }

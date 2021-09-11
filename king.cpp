@@ -13,6 +13,7 @@ BlackKing::BlackKing(const Mesh& mesh): Chess() {
 }
 
 void BlackKing::init(int x, int y) {
+    is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(0, 0, 50, 50));
     setPoint(QPoint(x, y));
 }

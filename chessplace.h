@@ -10,7 +10,7 @@ public:
     explicit ChessPlace(const QPoint&, int);
     ~ChessPlace();
 
-    Mesh getPos();
+    Mesh getMesh();
 private:
     void init(int, int, int);
     Mesh cur_pos_;

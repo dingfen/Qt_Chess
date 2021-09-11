@@ -13,6 +13,7 @@ BlackRook::BlackRook(const Mesh& mesh): Chess() {
 }
 
 void BlackRook::init(int x, int y) {
+    is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(200, 0, 50, 50));
     setPoint(QPoint(x, y));
 }
@@ -21,16 +22,26 @@ BlackRook::~BlackRook() {
 
 }
 
-//void BlackRook::move(const Mesh& mesh) {
-
-//}
-
-//bool BlackRook::isLegal(const Mesh& mesh) {
-//    return true;
-//}
 
 QString BlackRook::classname() {
     return QString("BlackRook");
+}
+
+
+QVector<QSharedPointer<ChessPlace>> BlackRook::generateNextPlace() {
+    QVector<QSharedPointer<ChessPlace>> next_vec;
+    QVector<Mesh> meshs;
+    for(int i = 1; i <= 9; i++)
+        if (cur_pos_.meshx() != i)
+            meshs.append(Mesh(i, cur_pos_.meshy()));
+    for(int i = 1; i <= 10; i++)
+        if (cur_pos_.meshy() != i)
+            meshs.append(Mesh(cur_pos_.meshx(), i));
+    for(auto m : meshs) {
+        ChessPlace *cp = new ChessPlace(m, 1);
+        next_vec.append(QSharedPointer<ChessPlace>(cp));
+    }
+    return next_vec;
 }
 
 
@@ -59,14 +70,22 @@ RedRook::~RedRook() {
 
 }
 
-//void RedRook::move(const Mesh& mesh) {
-
-//}
-
-//bool RedRook::isLegal(const Mesh& mesh) {
-//    return true;
-//}
-
 QString RedRook::classname() {
     return QString("RedRook");
+}
+
+QVector<QSharedPointer<ChessPlace>> RedRook::generateNextPlace() {
+    QVector<QSharedPointer<ChessPlace>> next_vec;
+    QVector<Mesh> meshs;
+    for(int i = 1; i <= 9; i++)
+        if (cur_pos_.meshx() != i)
+            meshs.append(Mesh(i, cur_pos_.meshy()));
+    for(int i = 1; i <= 10; i++)
+        if (cur_pos_.meshy() != i)
+            meshs.append(Mesh(cur_pos_.meshx(), i));
+    for(auto m : meshs) {
+        ChessPlace *cp = new ChessPlace(m, 1);
+        next_vec.append(QSharedPointer<ChessPlace>(cp));
+    }
+    return next_vec;
 }

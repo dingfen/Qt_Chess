@@ -5,9 +5,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include "resourcemanager.h"
-#include "chessplace.h"
 #include "chessboard.h"
-#include "chess.h"
+#include "mesh.h"
 
 class ChessScene : public QGraphicsScene {
 public:
@@ -19,7 +18,6 @@ public:
     }
 
     void startGame(const QString& path);
-    void putAllChess(const QString& filepath);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *);
@@ -30,10 +28,22 @@ private:
     QVector<QSharedPointer<Chess>> black_vec;
     QVector<QSharedPointer<Chess>> red_vec;
     QSharedPointer<ChessBoard> chess_board_;
-    QSharedPointer<ChessPlace> chess_place_point_to_;
+    QSharedPointer<ChessPlace> chess_place_move_to_;
+    QVector<QSharedPointer<ChessPlace>> move_vec;
     Chess*   selected_chess_;
 
+    bool is_red_check_;
+    bool is_black_check_;
+    bool is_red_move_;
+
     void registerClass();
+    void putAllChess(const QString& filepath);
+    void selectValidPlace(Chess *c);
+    void filterPlace(Chess *);
+    void _filterCannonRook(Chess *, const Mesh&);
+    void unSelectValidPlace();
+    bool isValid(const Mesh&);
+    Chess* chessOnPlace(const Mesh &m);
 };
 
 #endif // CHESSSCENE_H

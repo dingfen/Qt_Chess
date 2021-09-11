@@ -1,7 +1,9 @@
 #include "chessscene.h"
 
 ChessScene::ChessScene(QObject *parent) : QGraphicsScene(parent),
-    is_start_(false), chess_place_point_to_(nullptr), selected_chess_(nullptr) {
+    is_start_(false), black_vec({}), red_vec({}), chess_board_(nullptr),
+    chess_place_move_to_(nullptr), move_vec({}), selected_chess_(nullptr),
+    is_red_check_(false), is_black_check_(false), is_red_move_(true) {
     // no index just search all item in scene
     // apply to move add remove freq case
     this->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -58,32 +60,129 @@ void ChessScene::putAllChess(const QString& path) {
     }
 }
 
+void ChessScene::selectValidPlace(Chess *c) {
+    // get initial pos from rule
+    move_vec = c->generateNextPlace();
+    // based on playground, remove some illegal pos
+    filterPlace(c);
+    for(auto ptr : move_vec) {
+        addItem(ptr.get());
+    }
+}
+
+Chess* ChessScene::chessOnPlace(const Mesh &m) {
+    QPointF p = m.getPointF()+QPointF(50, 50);
+    auto item = itemAt(p, QTransform());
+    return dynamic_cast<Chess*>(item);
+}
+
+
+void ChessScene::filterPlace(Chess *src) {
+    Mesh cur = src->getMesh();
+    if (move_vec.size() == 17) {
+        // must be Cannon or Rook
+        _filterCannonRook(src, cur);
+    }
+}
+
+
+void ChessScene::_filterCannonRook(Chess *c, const Mesh& cur) {
+    int leftx = 0;
+    for(int i = cur.meshx()-1; i > 0; i--) {
+        Chess *c = chessOnPlace(Mesh(i, cur.meshy()));
+        if (c) {
+            if (c->isRed() == is_red_move_)
+                leftx = i;
+            else
+                leftx = i-1;
+            break;
+        }
+    }
+    int rightx = 8;
+    for(int i = cur.meshx()+1; i < 10; i++) {
+        Chess *c = chessOnPlace(Mesh(i, cur.meshy()));
+        if (c) {
+            if (c->isRed() == is_red_move_)
+                rightx = i-2;
+            else
+                rightx = i-1;
+            break;
+        }
+    }
+    int topy = 0;
+    for(int i = cur.meshy()-1; i > 0; i--) {
+        Chess *c = chessOnPlace(Mesh(cur.meshx(), i));
+        if (c) {
+            if (c->isRed() == is_red_move_)
+                topy = i;
+            else
+                topy = i-1;
+            break;
+        }
+    }
+    int boty = 9;
+    for(int i = cur.meshy()+1; i < 11; i++) {
+        Chess *c = chessOnPlace(Mesh(cur.meshx(), i));
+        if (c) {
+            if (c->isRed() == is_red_move_)
+                boty = i-2;
+            else
+                boty = i-1;
+            break;
+        }
+    }
+    move_vec.remove(8+boty, 9-boty);
+    move_vec.remove(8, topy);
+    move_vec.remove(rightx, 8-rightx);
+    move_vec.remove(0, leftx);
+}
+
+void ChessScene::unSelectValidPlace() {
+    for(auto ptr : move_vec) {
+        removeItem(ptr.get());
+    }
+    move_vec.clear();
+}
+
+/* whether click at valid place
+ * valid: Move and kill
+ * invalid: keep
+ */
+bool ChessScene::isValid(const Mesh& mesh) {
+    for(auto ptr : move_vec) {
+        if (mesh == ptr->getMesh())
+            return true;
+    }
+    return false;
+}
+
 void ChessScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     if (is_start_) {
         if (event->button() == Qt::LeftButton) {
-            qDebug() << "Chess Scene here";
-            auto item = itemAt(event->lastScenePos(), QTransform());
-            Chess* c = dynamic_cast<Chess*>(item);
+            // get the clicked item, cast as Chess if it is
+            Mesh mpos(event->lastScenePos());
+            Chess* c = chessOnPlace(mpos);
+            // second click
             if (selected_chess_) {
-                // second click
-//                bool succ = selected_chess_->isLegal();
-                selected_chess_->move(Mesh(event->lastScenePos()));
-                selected_chess_->unselected();
-                selected_chess_ = nullptr;
-                if (c) {
-                    c->dead();
+                if (isValid(mpos)) {
+                    unSelectValidPlace();
+                    selected_chess_->move(mpos);
+                    selected_chess_ = nullptr;
+                    if (c)
+                        c->dead();
+                    is_red_move_ = !is_red_move_;
                 }
                 return ;
             }
-            if (c && !selected_chess_) {
-                // first click
+            // first click
+            if (c && !selected_chess_ && is_red_move_ == c->isRed()) {
+                // display all valid place, and if check
                 selected_chess_ = c;
-                selected_chess_->selected();
+                selectValidPlace(c);
             }
         } else if (event->button() == Qt::RightButton) {
             if (selected_chess_) {
-                qDebug() << "canceled";
-                selected_chess_->unselected();
+                unSelectValidPlace();
                 selected_chess_ = nullptr;
             }
         }
@@ -96,11 +195,11 @@ void ChessScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     if (is_start_) {
         QPointF p = event->lastScenePos();
         Mesh m(p);
-        if (chess_place_point_to_) {
-            this->removeItem(chess_place_point_to_.get());
+        if (chess_place_move_to_) {
+            this->removeItem(chess_place_move_to_.get());
         }
-        chess_place_point_to_.reset(new ChessPlace(m, 0));
-        this->addItem(chess_place_point_to_.get());
+        chess_place_move_to_.reset(new ChessPlace(m, 0));
+        this->addItem(chess_place_move_to_.get());
     }
     QGraphicsScene::mousePressEvent(event);
 }

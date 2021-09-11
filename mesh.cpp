@@ -20,14 +20,20 @@ Mesh::~Mesh() {
 
 }
 
-void Mesh::adsorbPoint(const QPoint& p) {
-    x_ = (int)(p.x()-63)/110 +1;
-    y_ = (int)(p.y()-20)/110 +1;
+bool Mesh::setMeshx(int x) {
+    if (x >= 1 && x <= 9) {
+        x_ = x;
+        return true;
+    }
+    return false;
 }
 
-void Mesh::adsorbPoint(const QPointF& p) {
-    x_ = (int)(p.x()-63)/110 +1;
-    y_ = (int)(p.y()-20)/110 +1;
+bool Mesh::setMeshy(int y) {
+    if (y >= 1 && y <= 10) {
+        y_ = y;
+        return true;
+    }
+    return false;
 }
 
 QPoint Mesh::getPoint() const {

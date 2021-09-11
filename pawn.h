@@ -12,10 +12,7 @@ public:
     explicit BlackPawn(const Mesh&);
     ~BlackPawn();
     static QString classname();
-
-protected:
-    void generateNextPlace() override;
-    void removeNextPlace() override;
+    QVector<QSharedPointer<ChessPlace>> generateNextPlace() override;
 
 private:
     void init(int x, int y);
@@ -27,10 +24,8 @@ public:
     explicit RedPawn(int, int);
     explicit RedPawn(const Mesh&);
     ~RedPawn();
-
-//   void move(const Mesh&);
-//   bool isLegal(const Mesh&);
    static QString classname();
+   QVector<QSharedPointer<ChessPlace>> generateNextPlace() override;
 private:
     void init(int x, int y);
 };

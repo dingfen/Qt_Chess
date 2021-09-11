@@ -21,6 +21,6 @@ void ChessPlace::init(int x, int y, int choice) {
     this->setScale(1.5);
 }
 
-Mesh ChessPlace::getPos() {
+Mesh ChessPlace::getMesh() {
     return cur_pos_;
 }

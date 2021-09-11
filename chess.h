@@ -16,26 +16,28 @@ public:
     explicit Chess();
     ~Chess();
 
-    QPoint getPoint();
+    Mesh getMesh() {
+        return cur_pos_;
+    }
     void move(const Mesh&);
     void dead();
-    void selected();
-    void unselected();
+    bool isRed() {
+        return is_red_;
+    }
 
+    virtual QVector<QSharedPointer<ChessPlace>> generateNextPlace() {
+        return QVector<QSharedPointer<ChessPlace>>({});
+    };
     static bool isOnBoard(const Mesh&);
     static QString classname();
 protected:
     Mesh cur_pos_;
-    bool ishit_;
-    QVector<QSharedPointer<ChessPlace>> next_vec;
+    bool is_red_;
     QSharedPointer<QGraphicsItemAnimation> anim;
     QSharedPointer<QTimeLine> tl;
 
     void setPoint(const Mesh&);
     void setPoint(const QPoint&);
-
-    virtual void generateNextPlace() {};
-    virtual void removeNextPlace() {};
 
 private:
     void init();

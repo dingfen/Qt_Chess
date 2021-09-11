@@ -10,9 +10,9 @@ public:
     explicit BlackRook(const Mesh&);
     ~BlackRook();
 
-//    void move(const Mesh&);
-//    bool isLegal(const Mesh&);
     static QString classname();
+    QVector<QSharedPointer<ChessPlace>> generateNextPlace() override;
+
 private:
     void init(int x, int y);
 };
@@ -25,9 +25,8 @@ public:
     explicit RedRook(const Mesh&);
     ~RedRook();
 
-//    void move(const Mesh&);
-//    bool isLegal(const Mesh&);
     static QString classname();
+    QVector<QSharedPointer<ChessPlace>> generateNextPlace() override;
 private:
     void init(int x, int y);
 };

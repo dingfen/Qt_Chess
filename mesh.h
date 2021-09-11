@@ -15,8 +15,8 @@ public:
 
     QPoint getPoint() const;
     QPointF getPointF() const;
-    void adsorbPoint(const QPoint&);
-    void adsorbPoint(const QPointF&);
+    bool setMeshx(int);
+    bool setMeshy(int);
     int x() const;
     int y() const;
     int meshx() const;

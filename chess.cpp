@@ -1,16 +1,12 @@
 #include "chess.h"
 
 Chess::Chess()
-    :cur_pos_(0, 0), ishit_(false) {
+    :cur_pos_(0, 0), is_red_(true) {
     init();
 }
 
 Chess::~Chess() {
 
-}
-
-QPoint Chess::getPoint() {
-    return QPoint(cur_pos_.x(), cur_pos_.y());
 }
 
 void Chess::setPoint(const Mesh &m) {
@@ -19,7 +15,7 @@ void Chess::setPoint(const Mesh &m) {
 }
 
 void Chess::setPoint(const QPoint &p) {
-    cur_pos_.adsorbPoint(p);
+    cur_pos_ = Mesh(p);
     setPos(p);
 }
 
@@ -60,12 +56,4 @@ void Chess::move(const Mesh &m) {
 
 void Chess::dead() {
     scene()->removeItem(this);
-}
-
-void Chess::selected() {
-    generateNextPlace();
-}
-
-void Chess::unselected() {
-    removeNextPlace();
 }

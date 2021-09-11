@@ -13,6 +13,7 @@ BlackCannon::BlackCannon(const Mesh& mesh): Chess() {
 }
 
 void BlackCannon::init(int x, int y) {
+    is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(250, 0, 50, 50));
     setPoint(QPoint(x, y));
 }

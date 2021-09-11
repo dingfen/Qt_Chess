@@ -13,6 +13,7 @@ BlackGuard::BlackGuard(const Mesh& mesh): Chess() {
 }
 
 void BlackGuard::init(int x, int y) {
+    is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(50, 0, 50, 50));
     setPoint(QPoint(x, y));
 }

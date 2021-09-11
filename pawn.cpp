@@ -13,6 +13,7 @@ BlackPawn::BlackPawn(const Mesh& mesh): Chess() {
 }
 
 void BlackPawn::init(int x, int y) {
+    is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(300, 0, 50, 50));
     setPoint(QPoint(x, y));
 }
@@ -25,25 +26,15 @@ QString BlackPawn::classname() {
     return QString("BlackPawn");
 }
 
-void BlackPawn::generateNextPlace() {
-    if (next_vec.empty()) {
-        Mesh next(cur_pos_.meshx(), cur_pos_.meshy()+1);
-        if (!isOnBoard(next)) {
-            return;
-        }
-        ChessPlace* cp = new ChessPlace(next, 1);
-        next_vec.append(QSharedPointer<ChessPlace>(cp));
-        for (auto ptr : next_vec) {
-            this->scene()->addItem(ptr.get());
-        }
+QVector<QSharedPointer<ChessPlace>> BlackPawn::generateNextPlace() {
+    QVector<QSharedPointer<ChessPlace>> next_vec;
+    Mesh next(cur_pos_.meshx(), cur_pos_.meshy()+1);
+    if (!isOnBoard(next)) {
+       return next_vec;
     }
-}
-
-void BlackPawn::removeNextPlace() {
-    for(auto ptr : next_vec) {
-        this->scene()->removeItem(ptr.get());
-    }
-    next_vec.clear();
+    ChessPlace* cp = new ChessPlace(next, 1);
+    next_vec.append(QSharedPointer<ChessPlace>(cp));
+    return next_vec;
 }
 
 /*
@@ -71,14 +62,18 @@ RedPawn::~RedPawn() {
 
 }
 
-//void RedPawn::move(const Mesh& mesh) {
-
-//}
-
-//bool RedPawn::isLegal(const Mesh& mesh) {
-//    return true;
-//}
-
 QString RedPawn::classname() {
     return QString("RedPawn");
+}
+
+
+QVector<QSharedPointer<ChessPlace>> RedPawn::generateNextPlace() {
+    QVector<QSharedPointer<ChessPlace>> next_vec;
+    Mesh next(cur_pos_.meshx(), cur_pos_.meshy()-1);
+    if (!isOnBoard(next)) {
+       return next_vec;
+    }
+    ChessPlace* cp = new ChessPlace(next, 1);
+    next_vec.append(QSharedPointer<ChessPlace>(cp));
+    return next_vec;
 }
