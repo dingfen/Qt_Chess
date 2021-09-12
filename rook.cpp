@@ -28,18 +28,55 @@ QString BlackRook::classname() {
 }
 
 
-QVector<QSharedPointer<ChessPlace>> BlackRook::generateNextPlace() {
-    QVector<QSharedPointer<ChessPlace>> next_vec;
-    QVector<Mesh> meshs;
-    for(int i = 1; i <= 9; i++)
-        if (cur_pos_.meshx() != i)
-            meshs.append(Mesh(i, cur_pos_.meshy()));
-    for(int i = 1; i <= 10; i++)
-        if (cur_pos_.meshy() != i)
-            meshs.append(Mesh(cur_pos_.meshx(), i));
-    for(auto m : meshs) {
-        ChessPlace *cp = new ChessPlace(m, 1);
-        next_vec.append(QSharedPointer<ChessPlace>(cp));
+BlackRook::PlaceVecSptr
+    BlackRook::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    PlaceVecSptr next_vec;
+    int x = cur_pos_.meshx();
+    int y = cur_pos_.meshy();
+    QSharedPointer<Chess> c;
+    QSharedPointer<ChessPlace> cp;
+    int i = x-1;
+    while (i > 0 && !(c = cb[y-1][i-1])) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+        i--;
+    }
+    if (c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = x+1;
+    while (i < 10 && !(c = cb[y-1][i-1])) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+        i++;
+    }
+    if (c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = y-1;
+    while (i > 0 && !(c = cb[i-1][x-1])) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+        i--;
+    }
+    if (c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = y+1;
+    while (i < 11 && !(c = cb[i-1][x-1])) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+        i++;
+    }
+    if (c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
     }
     return next_vec;
 }
@@ -74,18 +111,55 @@ QString RedRook::classname() {
     return QString("RedRook");
 }
 
-QVector<QSharedPointer<ChessPlace>> RedRook::generateNextPlace() {
-    QVector<QSharedPointer<ChessPlace>> next_vec;
-    QVector<Mesh> meshs;
-    for(int i = 1; i <= 9; i++)
-        if (cur_pos_.meshx() != i)
-            meshs.append(Mesh(i, cur_pos_.meshy()));
-    for(int i = 1; i <= 10; i++)
-        if (cur_pos_.meshy() != i)
-            meshs.append(Mesh(cur_pos_.meshx(), i));
-    for(auto m : meshs) {
-        ChessPlace *cp = new ChessPlace(m, 1);
-        next_vec.append(QSharedPointer<ChessPlace>(cp));
+RedRook::PlaceVecSptr
+    RedRook::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    PlaceVecSptr next_vec;
+    int x = cur_pos_.meshx();
+    int y = cur_pos_.meshy();
+    QSharedPointer<Chess> c;
+    QSharedPointer<ChessPlace> cp;
+    int i = x-1;
+    while (i > 0 && (!(c = cb[y-1][i-1]))) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+        i--;
+    }
+    if (c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = x+1;
+    while (i < 10 && (!(c = cb[y-1][i-1]))) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+        i++;
+    }
+    if (c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = y-1;
+    while (i > 0 && (!(c = cb[i-1][x-1]))) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+        i--;
+    }
+    if (c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = y+1;
+    while (i < 11 && (!(c = cb[i-1][x-1]))) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+        i++;
+    }
+    if (c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
     }
     return next_vec;
 }

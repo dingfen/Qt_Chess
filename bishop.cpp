@@ -22,16 +22,47 @@ BlackBishop::~BlackBishop() {
 
 }
 
-//void BlackBishop::move(const Mesh& mesh) {
-
-//}
-
-//bool BlackBishop::isLegal(const Mesh& mesh) {
-//    return true;
-//}
-
 QString BlackBishop::classname() {
     return QString("BlackBishop");
+}
+
+BlackBishop::PlaceVecSptr
+  BlackBishop::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    PlaceVecSptr next_vec;
+    QSharedPointer<Chess> c;
+    QSharedPointer<Chess> d;
+    QSharedPointer<ChessPlace> cp;
+    int x = cur_pos_.meshx();
+    int y = cur_pos_.meshy();
+    if (x+2 <= 9 && y+2 < 6) {
+        if (!(d = cb[y][x]) &&
+             (!(c = cb[y+1][x+1]) || c->isRed() != redmove)) {
+            cp.reset(new ChessPlace(Mesh(x+2, y+2), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x+2 <= 9 && y-2 > 0) {
+        if (!(d = cb[y-2][x]) &&
+             (!(c = cb[y-3][x+1]) || c->isRed() != redmove)) {
+            cp.reset(new ChessPlace(Mesh(x+2, y-2), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x-2 > 0 && y+2 < 6) {
+        if (!(d = cb[y][x-2]) &&
+             (!(c = cb[y+1][x-3]) || c->isRed() != redmove)) {
+            cp.reset(new ChessPlace(Mesh(x-2, y+2), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x-2 > 0 && y-2 > 0) {
+        if (!(d = cb[y-2][x-2]) &&
+             (!(c = cb[y-3][x-3]) || c->isRed() != redmove)) {
+            cp.reset(new ChessPlace(Mesh(x-2, y-2), 1));
+            next_vec.append(cp);
+        }
+    }
+    return next_vec;
 }
 
 /*
@@ -59,14 +90,46 @@ RedBishop::~RedBishop() {
 
 }
 
-//void RedBishop::move(const Mesh& mesh) {
-
-//}
-
-//bool RedBishop::isLegal(const Mesh& mesh) {
-//    return true;
-//}
 
 QString RedBishop::classname() {
     return QString("RedBishop");
+}
+
+RedBishop::PlaceVecSptr
+  RedBishop::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    PlaceVecSptr next_vec;
+    QSharedPointer<Chess> c;
+    QSharedPointer<Chess> d;
+    QSharedPointer<ChessPlace> cp;
+    int x = cur_pos_.meshx();
+    int y = cur_pos_.meshy();
+    if (x+2 <= 9 && y+2 < 11) {
+        if (!(d = cb[y][x]) &&
+             (!(c = cb[y+1][x+1]) || c->isRed() != redmove)) {
+            cp.reset(new ChessPlace(Mesh(x+2, y+2), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x+2 <= 9 && y-2 > 5) {
+        if (!(d = cb[y-2][x]) &&
+             (!(c = cb[y-3][x+1]) || c->isRed() != redmove)) {
+            cp.reset(new ChessPlace(Mesh(x+2, y-2), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x-2 > 0 && y+2 < 11) {
+        if (!(d = cb[y][x-2]) &&
+             (!(c = cb[y+1][x-3]) || c->isRed() != redmove)) {
+            cp.reset(new ChessPlace(Mesh(x-2, y+2), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x-2 > 0 && y-2 > 5) {
+        if (!(d = cb[y-2][x-2]) &&
+             (!(c = cb[y-3][x-3]) || c->isRed() != redmove)) {
+            cp.reset(new ChessPlace(Mesh(x-2, y-2), 1));
+            next_vec.append(cp);
+        }
+    }
+    return next_vec;
 }

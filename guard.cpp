@@ -22,17 +22,44 @@ BlackGuard::~BlackGuard() {
 
 }
 
-//void BlackGuard::move(const Mesh& mesh) {
-
-//}
-
-//bool BlackGuard::isLegal(const Mesh& mesh) {
-//    return true;
-//}
-
 QString BlackGuard::classname() {
     return QString("BlackGuard");
 }
+
+BlackGuard::PlaceVecSptr
+    BlackGuard::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    PlaceVecSptr next_vec;
+    QSharedPointer<Chess> c;
+    QSharedPointer<ChessPlace> cp;
+    int x = cur_pos_.meshx();
+    int y = cur_pos_.meshy();
+    if (x+1 <= 6 && y+1 <= 3) {
+        if (!(c = cb[y][x]) || c->isRed() != redmove) {
+            cp.reset(new ChessPlace(Mesh(x+1, y+1), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x+1 <= 6 && y-1 > 0) {
+        if (!(c = cb[y-2][x]) || c->isRed() != redmove) {
+            cp.reset(new ChessPlace(Mesh(x+1, y-1), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x-1 >= 4 && y+1 <= 3) {
+        if (!(c = cb[y][x-2]) || c->isRed() != redmove) {
+            cp.reset(new ChessPlace(Mesh(x-1, y+1), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x-1 >= 4 && y-1 > 0) {
+        if (!(c = cb[y-2][x-2]) || c->isRed() != redmove) {
+            cp.reset(new ChessPlace(Mesh(x-1, y-1), 1));
+            next_vec.append(cp);
+        }
+    }
+    return next_vec;
+}
+
 
 /*
 ** *****            Red Guard                 ***** **
@@ -59,14 +86,40 @@ RedGuard::~RedGuard() {
 
 }
 
-//void RedGuard::move(const Mesh& mesh) {
-
-//}
-
-//bool RedGuard::isLegal(const Mesh& mesh) {
-//    return true;
-//}
-
 QString RedGuard::classname() {
     return QString("RedGuard");
+}
+
+RedGuard::PlaceVecSptr
+    RedGuard::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    PlaceVecSptr next_vec;
+    QSharedPointer<Chess> c;
+    QSharedPointer<ChessPlace> cp;
+    int x = cur_pos_.meshx();
+    int y = cur_pos_.meshy();
+    if (x+1 <= 6 && y+1 <= 10) {
+        if (!(c = cb[y][x]) || c->isRed() != redmove) {
+            cp.reset(new ChessPlace(Mesh(x+1, y+1), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x+1 <= 6 && y-1 >= 8) {
+        if (!(c = cb[y-2][x]) || c->isRed() != redmove) {
+            cp.reset(new ChessPlace(Mesh(x+1, y-1), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x-1 >= 4 && y+1 <= 10) {
+        if (!(c = cb[y][x-2]) || c->isRed() != redmove) {
+            cp.reset(new ChessPlace(Mesh(x-1, y+1), 1));
+            next_vec.append(cp);
+        }
+    }
+    if (x-1 >= 4 && y-1 >= 8) {
+        if (!(c = cb[y-2][x-2]) || c->isRed() != redmove) {
+            cp.reset(new ChessPlace(Mesh(x-1, y-1), 1));
+            next_vec.append(cp);
+        }
+    }
+    return next_vec;
 }

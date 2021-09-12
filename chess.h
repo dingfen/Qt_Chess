@@ -13,22 +13,22 @@
 
 class Chess : public QGraphicsPixmapItem {
 public:
+    using PlaceVecSptr=QVector<QSharedPointer<ChessPlace>>;
+    using ChessVecSptr=QVector<QVector<QSharedPointer<Chess>>>;
     explicit Chess();
     ~Chess();
 
     Mesh getMesh() {
         return cur_pos_;
     }
-    void move(const Mesh&);
-    void dead();
+    void animate(const Mesh&);
     bool isRed() {
         return is_red_;
     }
 
-    virtual QVector<QSharedPointer<ChessPlace>> generateNextPlace() {
-        return QVector<QSharedPointer<ChessPlace>>({});
+    virtual PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) {
+        return PlaceVecSptr({});
     };
-    static bool isOnBoard(const Mesh&);
     static QString classname();
 protected:
     Mesh cur_pos_;

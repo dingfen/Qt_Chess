@@ -9,9 +9,8 @@ public:
     explicit BlackGuard(int, int);
     explicit BlackGuard(const Mesh&);
     ~BlackGuard();
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 
-//    void move(const Mesh&);
-//    bool isLegal(const Mesh&);
     static QString classname();
 private:
     void init(int x, int y);
@@ -23,9 +22,8 @@ public:
     explicit RedGuard(int, int);
     explicit RedGuard(const Mesh&);
     ~RedGuard();
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 
-//    void move(const Mesh&);
-//    bool isLegal(const Mesh&);
     static QString classname();
 private:
     void init(int x, int y);

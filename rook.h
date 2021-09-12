@@ -11,7 +11,7 @@ public:
     ~BlackRook();
 
     static QString classname();
-    QVector<QSharedPointer<ChessPlace>> generateNextPlace() override;
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 
 private:
     void init(int x, int y);
@@ -26,7 +26,7 @@ public:
     ~RedRook();
 
     static QString classname();
-    QVector<QSharedPointer<ChessPlace>> generateNextPlace() override;
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 private:
     void init(int x, int y);
 };

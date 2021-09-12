@@ -2,7 +2,6 @@
 #define BLACKSOLDIER_H
 
 #include <QtDebug>
-#include <QGraphicsSceneMouseEvent>
 #include "chess.h"
 
 class BlackPawn : public Chess {
@@ -12,7 +11,7 @@ public:
     explicit BlackPawn(const Mesh&);
     ~BlackPawn();
     static QString classname();
-    QVector<QSharedPointer<ChessPlace>> generateNextPlace() override;
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 
 private:
     void init(int x, int y);
@@ -25,7 +24,7 @@ public:
     explicit RedPawn(const Mesh&);
     ~RedPawn();
    static QString classname();
-   QVector<QSharedPointer<ChessPlace>> generateNextPlace() override;
+   PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 private:
     void init(int x, int y);
 };

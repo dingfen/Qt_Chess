@@ -9,9 +9,8 @@ public:
     explicit BlackKnight(int, int);
     explicit BlackKnight(const Mesh&);
     ~BlackKnight();
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 
-//    void move(const Mesh&);
-//    bool isLegal(const Mesh&);
     static QString classname();
 private:
     void init(int x, int y);
@@ -24,9 +23,8 @@ public:
     explicit RedKnight(int, int);
     explicit RedKnight(const Mesh&);
     ~RedKnight();
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 
-//    void move(const Mesh&);
-//    bool isLegal(const Mesh&);
     static QString classname();
 private:
     void init(int x, int y);

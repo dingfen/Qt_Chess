@@ -23,16 +23,6 @@ QString Chess::classname() {
     return QString("Chess");
 }
 
-bool Chess::isOnBoard(const Mesh &mesh) {
-    if (mesh.meshx() < 1 || mesh.meshx() > 9 ||
-        mesh.meshy() < 1 || mesh.meshy() > 10) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-
 void Chess::init() {
     this->setScale(2.0);
     this->setCursor(Qt::PointingHandCursor);
@@ -42,7 +32,7 @@ void Chess::init() {
     anim->setTimeLine(tl.get());
 }
 
-void Chess::move(const Mesh &m) {
+void Chess::animate(const Mesh &m) {
     QPointF start = cur_pos_.getPointF();
     QPointF end = m.getPointF();
     for (int i = 0; i < 100; ++i) {
@@ -51,9 +41,4 @@ void Chess::move(const Mesh &m) {
     }
     tl->start();
     cur_pos_ = m;
-    qDebug() << "Move";
-}
-
-void Chess::dead() {
-    scene()->removeItem(this);
 }

@@ -10,6 +10,8 @@
 
 class ChessScene : public QGraphicsScene {
 public:
+    using ChessVecSptr=QVector<QVector<QSharedPointer<Chess>>>;
+    using PlaceVecSptr=QVector<QSharedPointer<ChessPlace>>;
     explicit ChessScene(QObject *parent = nullptr);
     ~ChessScene();
 
@@ -25,12 +27,11 @@ protected:
 
 private:
     bool is_start_;
-    QVector<QSharedPointer<Chess>> black_vec;
-    QVector<QSharedPointer<Chess>> red_vec;
+    ChessVecSptr chess_vec;
     QSharedPointer<ChessBoard> chess_board_;
     QSharedPointer<ChessPlace> chess_place_move_to_;
-    QVector<QSharedPointer<ChessPlace>> move_vec;
-    Chess*   selected_chess_;
+    PlaceVecSptr move_vec;
+    QSharedPointer<Chess>   selected_chess_;
 
     bool is_red_check_;
     bool is_black_check_;
@@ -39,11 +40,12 @@ private:
     void registerClass();
     void putAllChess(const QString& filepath);
     void selectValidPlace(Chess *c);
+    void move(const Mesh&);
     void filterPlace(Chess *);
     void _filterCannonRook(Chess *, const Mesh&);
     void unSelectValidPlace();
     bool isValid(const Mesh&);
-    Chess* chessOnPlace(const Mesh &m);
+    Chess* chessOn(const Mesh &m);
 };
 
 #endif // CHESSSCENE_H

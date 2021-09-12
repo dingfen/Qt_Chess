@@ -9,9 +9,8 @@ public:
     explicit BlackBishop(int, int);
     explicit BlackBishop(const Mesh&);
     ~BlackBishop();
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 
-//    void move(const Mesh&);
-//    bool isLegal(const Mesh&);
     static QString classname();
 private:
     void init(int x, int y);
@@ -23,9 +22,8 @@ public:
     explicit RedBishop(int, int);
     explicit RedBishop(const Mesh&);
     ~RedBishop();
+    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
 
-//    void move(const Mesh&);
-//    bool isLegal(const Mesh&);
     static QString classname();
 private:
     void init(int x, int y);

@@ -22,16 +22,73 @@ BlackCannon::~BlackCannon() {
 
 }
 
-//void BlackCannon::move(const Mesh& mesh) {
-
-//}
-
-//bool BlackCannon::isLegal(const Mesh& mesh) {
-//    return true;
-//}
-
 QString BlackCannon::classname() {
     return QString("BlackCannon");
+}
+
+BlackCannon::PlaceVecSptr
+  BlackCannon::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    PlaceVecSptr next_vec;
+    int x = cur_pos_.meshx();
+    int y = cur_pos_.meshy();
+    QSharedPointer<Chess> c;
+    QSharedPointer<ChessPlace> cp;
+    int i = x-1;
+    while (i > 0 && !(c = cb[y-1][i-1])) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+        i--;
+    }
+    do {
+        i--;
+    }while (i > 0 && !(c = cb[y-1][i-1]));
+    if(i > 0 && c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = x+1;
+    while (i < 10 && !(c = cb[y-1][i-1])) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+        i++;
+    }
+    do {
+        i++;
+    }while (i < 10 && !(c = cb[y-1][i-1]));
+    if(i < 10 && c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = y-1;
+    while (i > 0 && !(c = cb[i-1][x-1])) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+        i--;
+    }
+    do {
+        i--;
+    }while (i > 0 && !(c = cb[i-1][x-1]));
+    if(i > 0 && c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = y+1;
+    while (i < 11 && !(c = cb[i-1][x-1])) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+        i++;
+    }
+    do {
+        i++;
+    }while (i < 11 && !(c = cb[i-1][x-1]));
+    if(i < 11 && c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+    }
+    return next_vec;
 }
 
 /*
@@ -59,14 +116,71 @@ RedCannon::~RedCannon() {
 
 }
 
-//void RedCannon::move(const Mesh& mesh) {
-
-//}
-
-//bool RedCannon::isLegal(const Mesh& mesh) {
-//    return true;
-//}
-
 QString RedCannon::classname() {
     return QString("RedCannon");
+}
+
+RedCannon::PlaceVecSptr
+  RedCannon::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    PlaceVecSptr next_vec;
+    int x = cur_pos_.meshx();
+    int y = cur_pos_.meshy();
+    QSharedPointer<Chess> c;
+    QSharedPointer<ChessPlace> cp;
+    int i = x-1;
+    while (i > 0 && !(c = cb[y-1][i-1])) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+        i--;
+    }
+    do {
+        i--;
+    }while (i > 0 && !(c = cb[y-1][i-1]));
+    if(i > 0 && c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = x+1;
+    while (i < 10 && !(c = cb[y-1][i-1])) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+        i++;
+    }
+    do {
+        i++;
+    }while (i < 10 && !(c = cb[y-1][i-1]));
+    if(i < 10 && c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(i, y), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = y-1;
+    while (i > 0 && !(c = cb[i-1][x-1])) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+        i--;
+    }
+    do {
+        i--;
+    }while (i > 0 && !(c = cb[i-1][x-1]));
+    if(i > 0 && c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+    }
+    c.clear();
+    i = y+1;
+    while (i < 11 && !(c = cb[i-1][x-1])) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+        i++;
+    }
+    do {
+        i++;
+    }while (i < 11 && !(c = cb[i-1][x-1]));
+    if(i < 11 && c && c->isRed() != redmove) {
+        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        next_vec.append(cp);
+    }
+    return next_vec;
 }
