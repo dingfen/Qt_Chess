@@ -1,4 +1,4 @@
-#include "pawn.h"
+﻿#include "pawn.h"
 
 BlackPawn::BlackPawn(const QPoint& pos): Chess() {
     init(pos.x(), pos.y());
@@ -26,33 +26,41 @@ QString BlackPawn::classname() {
     return QString("BlackPawn");
 }
 
-BlackPawn::PlaceVecSptr
+BlackPawn::MeshVecSptr
     BlackPawn::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
-    PlaceVecSptr next_vec;
+    move_range_.clear();
     QSharedPointer<Chess> c;
-    QSharedPointer<ChessPlace> cp;
+//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (y > 5) {
         if (y+1 < 11 && (!(c = cb[y][x-1]) || c->isRed() != redmove)) {
-            cp.reset(new ChessPlace(Mesh(x, y+1), 1));
-            next_vec.append(cp);
+//            cp.reset(new ChessPlace(Mesh(x, y+1), 1));
+            move_range_.append(Mesh(x, y+1));
         }
         if (x+1 < 10 && (!(c = cb[y-1][x]) || c->isRed() != redmove)) {
-            cp.reset(new ChessPlace(Mesh(x+1, y), 1));
-            next_vec.append(cp);
+//            cp.reset(new ChessPlace(Mesh(x+1, y), 1));
+            move_range_.append(Mesh(x+1, y));
         }
         if (x-1 > 0 && (!(c = cb[y-1][x-2]) || c->isRed() != redmove)) {
-            cp.reset(new ChessPlace(Mesh(x-1, y), 1));
-            next_vec.append(cp);
+//            cp.reset(new ChessPlace(Mesh(x-1, y), 1));
+            move_range_.append(Mesh(x-1, y));
         }
     } else {
         if (y+1 < 11 && (!(c = cb[y][x-1]) || c->isRed() != redmove)) {
-            cp.reset(new ChessPlace(Mesh(x, y+1), 1));
-            next_vec.append(cp);
+            move_range_.append(Mesh(x, y+1));
         }
     }
-    return next_vec;
+    return move_range_;
+}
+
+QJsonObject BlackPawn::toJson() {
+    QJsonObject obj;
+    obj.insert("Type", "Pawn");
+    obj.insert("Color", "Black");
+    obj.insert("X", QJsonValue(cur_pos_.meshx()));
+    obj.insert("Y", QJsonValue(cur_pos_.meshy()));
+    return obj;
 }
 
 /*
@@ -85,31 +93,40 @@ QString RedPawn::classname() {
 }
 
 
-RedPawn::PlaceVecSptr
+RedPawn::MeshVecSptr
     RedPawn::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
-    PlaceVecSptr next_vec;
+    move_range_.clear();
     QSharedPointer<Chess> c;
-    QSharedPointer<ChessPlace> cp;
+//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (y < 6) {
         if (y-1 > 0 && (!(c = cb[y-2][x-1]) || c->isRed() != redmove)) {
-            cp.reset(new ChessPlace(Mesh(x, y-1), 1));
-            next_vec.append(cp);
+//            cp.reset(new ChessPlace(Mesh(x, y-1), 1));
+            move_range_.append(Mesh(x, y-1));
         }
         if (x+1 < 10 && (!(c = cb[y-1][x]) || c->isRed() != redmove)) {
-            cp.reset(new ChessPlace(Mesh(x+1, y), 1));
-            next_vec.append(cp);
+//            cp.reset(new ChessPlace(Mesh(x+1, y), 1));
+            move_range_.append(Mesh(x+1, y));
         }
         if (x-1 > 0 && (!(c = cb[y-1][x-2]) || c->isRed() != redmove)) {
-            cp.reset(new ChessPlace(Mesh(x-1, y), 1));
-            next_vec.append(cp);
+//            cp.reset(new ChessPlace(Mesh(x-1, y), 1));
+            move_range_.append(Mesh(x-1, y));
         }
     } else {
         if (y-1 < 11 && (!(c = cb[y-2][x-1]) || c->isRed() != redmove)) {
-            cp.reset(new ChessPlace(Mesh(x, y-1), 1));
-            next_vec.append(cp);
+//            cp.reset(new ChessPlace(Mesh(x, y-1), 1));
+            move_range_.append(Mesh(x, y-1));
         }
     }
-    return next_vec;
+    return move_range_;
+}
+
+QJsonObject RedPawn::toJson() {
+    QJsonObject obj;
+    obj.insert("Type", "Pawn");
+    obj.insert("Color", "Red");
+    obj.insert("X", QJsonValue(cur_pos_.meshx()));
+    obj.insert("Y", QJsonValue(cur_pos_.meshy()));
+    return obj;
 }

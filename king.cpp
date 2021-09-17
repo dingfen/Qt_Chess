@@ -1,4 +1,4 @@
-#include "king.h"
+﻿#include "king.h"
 
 BlackKing::BlackKing(const QPoint& pos): Chess() {
     init(pos.x(), pos.y());
@@ -26,38 +26,47 @@ QString BlackKing::classname() {
     return QString("BlackKing");
 }
 
-BlackKing::PlaceVecSptr
+BlackKing::MeshVecSptr
   BlackKing::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
-    PlaceVecSptr next_vec;
+    move_range_.clear();
     QSharedPointer<Chess> c;
-    QSharedPointer<ChessPlace> cp;
+//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (y+1 < 4 && (!(c = cb[y][x-1]) || c->isRed() != redmove)) {
-        cp.reset(new ChessPlace(Mesh(x, y+1), 1));
-        next_vec.append(cp);
+//        cp.reset(new ChessPlace(Mesh(x, y+1), 1));
+        move_range_.append(Mesh(x, y+1));
     }
     if (x+1 < 7 && (!(c = cb[y-1][x]) || c->isRed() != redmove)) {
-        cp.reset(new ChessPlace(Mesh(x+1, y), 1));
-        next_vec.append(cp);
+//        cp.reset(new ChessPlace(Mesh(x+1, y), 1));
+        move_range_.append(Mesh(x+1, y));
     }
     if (x-1 > 3 && (!(c = cb[y-1][x-2]) || c->isRed() != redmove)) {
-        cp.reset(new ChessPlace(Mesh(x-1, y), 1));
-        next_vec.append(cp);
+//        cp.reset(new ChessPlace(Mesh(x-1, y), 1));
+        move_range_.append(Mesh(x-1, y));
     }
     if (y-1 > 0 && (!(c = cb[y-2][x-1]) || c->isRed() != redmove)) {
-        cp.reset(new ChessPlace(Mesh(x, y-1), 1));
-        next_vec.append(cp);
+//        cp.reset(new ChessPlace(Mesh(x, y-1), 1));
+        move_range_.append(Mesh(x, y-1));
     }
     int i = y+1;
     while(i < 11 && !(c = cb[i-1][x-1])) {
         i++;
     }
     if (i < 11 && dynamic_cast<RedKing*>(c.get())) {
-        cp.reset(new ChessPlace(Mesh(x, i), 1));
-        next_vec.append(cp);
+//        cp.reset(new ChessPlace(Mesh(x, i), 1));
+        move_range_.append(Mesh(x, i));
     }
-    return next_vec;
+    return move_range_;
+}
+
+QJsonObject BlackKing::toJson() {
+    QJsonObject obj;
+    obj.insert("Type", "King");
+    obj.insert("Color", "Black");
+    obj.insert("X", QJsonValue(cur_pos_.meshx()));
+    obj.insert("Y", QJsonValue(cur_pos_.meshy()));
+    return obj;
 }
 
 /*
@@ -89,36 +98,42 @@ QString RedKing::classname() {
     return QString("RedKing");
 }
 
-RedKing::PlaceVecSptr
+RedKing::MeshVecSptr
   RedKing::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
-    PlaceVecSptr next_vec;
+    move_range_.clear();
     QSharedPointer<Chess> c;
-    QSharedPointer<ChessPlace> cp;
+//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (y+1 < 11 && (!(c = cb[y][x-1]) || c->isRed() != redmove)) {
-        cp.reset(new ChessPlace(Mesh(x, y+1), 1));
-        next_vec.append(cp);
+//        cp.reset(new ChessPlace(Mesh(x, y+1), 1));
+        move_range_.append(Mesh(x, y+1));
     }
     if (x+1 < 7 && (!(c = cb[y-1][x]) || c->isRed() != redmove)) {
-        cp.reset(new ChessPlace(Mesh(x+1, y), 1));
-        next_vec.append(cp);
+//        cp.reset(new ChessPlace(Mesh(x+1, y), 1));
+        move_range_.append(Mesh(x+1, y));
     }
     if (x-1 > 3 && (!(c = cb[y-1][x-2]) || c->isRed() != redmove)) {
-        cp.reset(new ChessPlace(Mesh(x-1, y), 1));
-        next_vec.append(cp);
+        move_range_.append(Mesh(x-1, y));
     }
     if (y-1 > 7 && (!(c = cb[y-2][x-1]) || c->isRed() != redmove)) {
-        cp.reset(new ChessPlace(Mesh(x, y-1), 1));
-        next_vec.append(cp);
+        move_range_.append(Mesh(x, y-1));
     }
     int i = y-1;
     while(i > 0 && !(c = cb[i-1][x-1])) {
         i--;
     }
     if (i > 0 && dynamic_cast<BlackKing*>(c.get())) {
-        cp.reset(new ChessPlace(Mesh(x, i), 1));
-        next_vec.append(cp);
+        move_range_.append(Mesh(x, i));
     }
-    return next_vec;
+    return move_range_;
+}
+
+QJsonObject RedKing::toJson() {
+    QJsonObject obj;
+    obj.insert("Type", "King");
+    obj.insert("Color", "Red");
+    obj.insert("X", QJsonValue(cur_pos_.meshx()));
+    obj.insert("Y", QJsonValue(cur_pos_.meshy()));
+    return obj;
 }

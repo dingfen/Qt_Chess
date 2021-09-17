@@ -1,4 +1,4 @@
-#ifndef BLACKSOLDIER_H
+﻿#ifndef BLACKSOLDIER_H
 #define BLACKSOLDIER_H
 
 #include <QtDebug>
@@ -11,7 +11,8 @@ public:
     explicit BlackPawn(const Mesh&);
     ~BlackPawn();
     static QString classname();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
 
 private:
     void init(int x, int y);
@@ -24,7 +25,9 @@ public:
     explicit RedPawn(const Mesh&);
     ~RedPawn();
    static QString classname();
-   PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+   MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+   QJsonObject toJson() override;
+
 private:
     void init(int x, int y);
 };

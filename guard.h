@@ -1,4 +1,4 @@
-#ifndef GUARD_H
+﻿#ifndef GUARD_H
 #define GUARD_H
 
 #include "chess.h"
@@ -9,8 +9,8 @@ public:
     explicit BlackGuard(int, int);
     explicit BlackGuard(const Mesh&);
     ~BlackGuard();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
-
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
     static QString classname();
 private:
     void init(int x, int y);
@@ -22,8 +22,8 @@ public:
     explicit RedGuard(int, int);
     explicit RedGuard(const Mesh&);
     ~RedGuard();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
-
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
     static QString classname();
 private:
     void init(int x, int y);

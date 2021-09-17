@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1300</width>
+    <width>1400</width>
     <height>1300</height>
    </rect>
   </property>
@@ -18,8 +18,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>16777215</width>
-    <height>16777215</height>
+    <width>1500</width>
+    <height>1400</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -36,6 +36,9 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
      <widget class="QGraphicsView" name="chessboard">
@@ -57,6 +60,10 @@
       <property name="autoFillBackground">
        <bool>true</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true">
+border:2px;</string>
+      </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
@@ -69,9 +76,9 @@
       <property name="backgroundBrush">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>211</red>
-         <green>194</green>
-         <blue>153</blue>
+         <red>212</red>
+         <green>192</green>
+         <blue>151</blue>
         </color>
        </brush>
       </property>
@@ -88,9 +95,22 @@
     <item>
      <layout class="QVBoxLayout" name="verlayout">
       <item>
+       <widget class="QPlainTextEdit" name="historyboard">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-image: url(:/img/img/background.jpg);</string>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>你的回合</string>
+         <string>红方回合</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -136,7 +156,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1300</width>
+     <width>1400</width>
      <height>21</height>
     </rect>
    </property>
@@ -220,8 +240,42 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>loadGameAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>loadGame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>699</x>
+     <y>649</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveGameAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveGame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>699</x>
+     <y>649</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>startGame()</slot>
+  <slot>loadGame()</slot>
+  <slot>saveGame()</slot>
  </slots>
 </ui>

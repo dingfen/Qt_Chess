@@ -1,4 +1,4 @@
-#ifndef CHESS_H
+﻿#ifndef CHESS_H
 #define CHESS_H
 
 #include <QCursor>
@@ -8,12 +8,13 @@
 #include <QGraphicsItemAnimation>
 #include <QTimeLine>
 #include <QGraphicsSceneMouseEvent>
+#include <QJsonObject>
 #include "chessplace.h"
 #include "resourcemanager.h"
 
 class Chess : public QGraphicsPixmapItem {
 public:
-    using PlaceVecSptr=QVector<QSharedPointer<ChessPlace>>;
+    using MeshVecSptr=QVector<Mesh>;
     using ChessVecSptr=QVector<QVector<QSharedPointer<Chess>>>;
     explicit Chess();
     ~Chess();
@@ -26,13 +27,13 @@ public:
         return is_red_;
     }
 
-    virtual PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) {
-        return PlaceVecSptr({});
-    };
+    virtual MeshVecSptr generateNextPlace(const ChessVecSptr&, bool)=0;
+    virtual QJsonObject toJson()=0;
     static QString classname();
 protected:
     Mesh cur_pos_;
     bool is_red_;
+    MeshVecSptr move_range_;
     QSharedPointer<QGraphicsItemAnimation> anim;
     QSharedPointer<QTimeLine> tl;
 

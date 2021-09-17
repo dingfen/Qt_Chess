@@ -1,4 +1,4 @@
-#ifndef ROOK_H
+﻿#ifndef ROOK_H
 #define ROOK_H
 
 #include "chess.h"
@@ -11,7 +11,8 @@ public:
     ~BlackRook();
 
     static QString classname();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
 
 private:
     void init(int x, int y);
@@ -26,7 +27,9 @@ public:
     ~RedRook();
 
     static QString classname();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
+
 private:
     void init(int x, int y);
 };

@@ -1,4 +1,4 @@
-#ifndef CANNON_H
+﻿#ifndef CANNON_H
 #define CANNON_H
 
 #include "chess.h"
@@ -9,8 +9,8 @@ public:
     explicit BlackCannon(int, int);
     explicit BlackCannon(const Mesh&);
     ~BlackCannon();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
-
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
     static QString classname();
 private:
     void init(int x, int y);
@@ -22,8 +22,8 @@ public:
     explicit RedCannon(int, int);
     explicit RedCannon(const Mesh&);
     ~RedCannon();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
-
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
     static QString classname();
 private:
     void init(int x, int y);

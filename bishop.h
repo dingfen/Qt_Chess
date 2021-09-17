@@ -1,4 +1,4 @@
-#ifndef BISHOP_H
+﻿#ifndef BISHOP_H
 #define BISHOP_H
 
 #include "chess.h"
@@ -9,8 +9,8 @@ public:
     explicit BlackBishop(int, int);
     explicit BlackBishop(const Mesh&);
     ~BlackBishop();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
-
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
     static QString classname();
 private:
     void init(int x, int y);
@@ -22,8 +22,8 @@ public:
     explicit RedBishop(int, int);
     explicit RedBishop(const Mesh&);
     ~RedBishop();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
-
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
     static QString classname();
 private:
     void init(int x, int y);

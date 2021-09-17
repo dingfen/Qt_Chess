@@ -1,4 +1,4 @@
-#ifndef CHESSFACTORY_H
+﻿#ifndef CHESSFACTORY_H
 #define CHESSFACTORY_H
 
 #include <QString>
@@ -21,7 +21,7 @@ public:
     }
 
     static Chess* createObject(const QString& className, const Mesh& mesh) {
-        Constructor constructor = constructors().value( className );
+        Constructor constructor = constructors().value(className);
         if (!constructor)
             return nullptr;
         return (*constructor)(mesh);

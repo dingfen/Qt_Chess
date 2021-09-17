@@ -1,5 +1,6 @@
-#ifndef CHESSSCENE_H
+﻿#ifndef CHESSSCENE_H
 #define CHESSSCENE_H
+#pragma execution_character_set("utf-8")
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -9,17 +10,25 @@
 #include "mesh.h"
 
 class ChessScene : public QGraphicsScene {
+    Q_OBJECT
 public:
     using ChessVecSptr=QVector<QVector<QSharedPointer<Chess>>>;
     using PlaceVecSptr=QVector<QSharedPointer<ChessPlace>>;
+    using MeshVecSptr =QVector<Mesh>;
     explicit ChessScene(QObject *parent = nullptr);
     ~ChessScene();
 
     bool isStart() {
         return is_start_;
     }
-
     void startGame(const QString& path);
+    void saveGame(const QString& path);
+    void write(const QString&);
+    void clear();
+
+signals:
+    void recordHistory(const QString&);
+    void nextRound(bool);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *);
@@ -39,13 +48,11 @@ private:
 
     void registerClass();
     void putAllChess(const QString& filepath);
-    void selectValidPlace(Chess *c);
+    void selectValidPlace();
     void move(const Mesh&);
-    void filterPlace(Chess *);
-    void _filterCannonRook(Chess *, const Mesh&);
     void unSelectValidPlace();
     bool isValid(const Mesh&);
-    Chess* chessOn(const Mesh &m);
+    void isCheck(const Mesh&);
 };
 
 #endif // CHESSSCENE_H

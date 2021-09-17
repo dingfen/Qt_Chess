@@ -8,6 +8,7 @@
         <file>img/loadgame.png</file>
         <file>img/savegame.png</file>
         <file>img/labeled.png</file>
+        <file>img/background.jpg</file>
     </qresource>
     <qresource prefix="/game">
         <file>savegame/opening.json</file>

@@ -1,4 +1,4 @@
-#ifndef JSONPARSER_H
+﻿#ifndef JSONPARSER_H
 #define JSONPARSER_H
 
 #include <QFile>
@@ -6,15 +6,20 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QQueue>
+#include <QVector>
 
 class JsonParser {
 public:
-    JsonParser(const QString& file);
+    JsonParser();
+    JsonParser(const QString& path);
     ~JsonParser();
 
+    void openAndRead(const QString& path);
     void parseJson();
+    void writeJson(const QVector<QJsonObject>& j);
     bool get(QJsonObject *);
 private:
+    QFile file;
     QByteArray data_;
     QQueue<QJsonObject> objs_;
 };

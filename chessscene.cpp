@@ -1,4 +1,4 @@
-#include "chessscene.h"
+﻿#include "chessscene.h"
 
 ChessScene::ChessScene(QObject *parent) : QGraphicsScene(parent),
     is_start_(false), chess_vec(10, QVector<QSharedPointer<Chess>>(9)),
@@ -9,6 +9,7 @@ ChessScene::ChessScene(QObject *parent) : QGraphicsScene(parent),
     this->setItemIndexMethod(QGraphicsScene::NoIndex);
     chess_board_.reset(new ChessBoard(*ResourceManager::get().chessBoardPixmap()));
     this->addItem(chess_board_.get());
+    registerClass();
 }
 
 ChessScene::~ChessScene() {
@@ -35,16 +36,34 @@ void ChessScene::registerClass() {
 
 void ChessScene::startGame(const QString &path) {
     is_start_ = true;
-    registerClass();
     this->putAllChess(path);
 }
 
-void ChessScene::putAllChess(const QString& path) {
-    qDebug() << "Loading " << path << " ...";
+void ChessScene::saveGame(const QString &path) {
     JsonParser jp(path);
+    QVector<QJsonObject> obj_vec;
+    for(auto &row : chess_vec) {
+        for(auto &chess : row) {
+            if (chess) {
+                QJsonObject obj = chess->toJson();
+                obj_vec.append(obj);
+            }
+        }
+    }
+    jp.writeJson(obj_vec);
+}
+
+void ChessScene::write(const QString& str) {
+    emit recordHistory(str);
+}
+
+void ChessScene::putAllChess(const QString& path) {
+    write("<font color=\"#707070\">装载新游戏：" + path + " ...</font>");
+    qDebug() << "Loading " << path << " ...";
+    JsonParser jp;
+    jp.openAndRead(path);
     jp.parseJson();
     QJsonObject obj;
-
     while (jp.get(&obj)) {
         QString color = obj.value("Color").toString();
         QString classname = color + obj.value("Type").toString();
@@ -55,19 +74,34 @@ void ChessScene::putAllChess(const QString& path) {
         chess_vec[y-1][x-1] = ptr;
         this->addItem(ptr.get());
     }
+    write("<font color=\"#B00000\">开始对弈！红方先行</font>");
 }
 
-void ChessScene::selectValidPlace(Chess *c) {
-    move_vec = c->generateNextPlace(chess_vec, is_red_move_);
-    for(auto ptr : move_vec) {
-        addItem(ptr.get());
+void ChessScene::clear() {
+    selected_chess_.reset();
+    for(auto& row : chess_vec) {
+        for(auto& ptr : row) {
+            if (ptr) {
+                removeItem(ptr.get());
+                ptr.reset();
+            }
+        }
     }
+    move_vec.clear();
+    is_red_check_ = false;
+    is_black_check_ = false;
+    is_red_move_ = true;
+    is_start_ = false;
 }
 
-Chess* ChessScene::chessOn(const Mesh &m) {
-    QPointF p = m.getPointF()+QPointF(50, 50);
-    auto item = itemAt(p, QTransform());
-    return dynamic_cast<Chess*>(item);
+void ChessScene::selectValidPlace() {
+    auto mesh_vec = selected_chess_->generateNextPlace(chess_vec, is_red_move_);
+    QSharedPointer<ChessPlace> cp;
+    for(auto mesh : mesh_vec) {
+        cp.reset(new ChessPlace(mesh, 1));
+        addItem(cp.get());
+        move_vec.append(cp);
+    }
 }
 
 void ChessScene::unSelectValidPlace() {
@@ -89,6 +123,25 @@ bool ChessScene::isValid(const Mesh& mesh) {
     return false;
 }
 
+void ChessScene::isCheck(const Mesh& m) {
+    auto just_move = chess_vec[m.meshy()-1][m.meshx()-1];
+    auto attack_zone = just_move->generateNextPlace(chess_vec, is_red_move_);
+    for(auto ptr : attack_zone) {
+        int y = ptr.meshy();
+        int x = ptr.meshx();
+        if (chess_vec[y-1][x-1]) {
+            if (dynamic_cast<BlackKing*>(chess_vec[y-1][x-1].get())) {
+                is_black_check_ = true;
+                qDebug() << "Black is Check!";
+            }
+            if (dynamic_cast<RedKing*>(chess_vec[y-1][x-1].get())) {
+                is_red_check_ = true;
+                qDebug() << "Red is Check!";
+            }
+        }
+    }
+}
+
 void ChessScene::move(const Mesh& m) {
     Mesh pos = selected_chess_->getMesh();
     selected_chess_->animate(m);
@@ -107,16 +160,18 @@ void ChessScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
                 if (isValid(mpos)) {
                     unSelectValidPlace();
                     move(mpos);
+                    isCheck(mpos);
                     is_red_move_ = !is_red_move_;
+                    emit nextRound(is_red_move_);
                 }
                 return ;
             }
             // first click
-            Chess* c = chessOn(mpos);
+            auto c = chess_vec[mpos.meshy()-1][mpos.meshx()-1];
             if (c && !selected_chess_ && is_red_move_ == c->isRed()) {
                 // display all valid place, and if check
                 selected_chess_ = chess_vec[mpos.meshy()-1][mpos.meshx()-1];
-                selectValidPlace(c);
+                selectValidPlace();
             }
         } else if (event->button() == Qt::RightButton) {
             if (selected_chess_) {

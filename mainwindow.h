@@ -1,10 +1,13 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#pragma execution_character_set("utf-8")
 
 #include <QMainWindow>
 #include "chessboard.h"
 #include "resourcemanager.h"
 #include "chessscene.h"
+#include <QFileDialog>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,8 +23,11 @@ public:
 
 public slots:
     void startGame(const QString& path = ":/game/savegame/opening.json");
+    void loadGame();
+    void saveGame();
     void regret();
-
+    void writeHistory(const QString &str);
+    void displayRound(bool);
 private:
     void init();
 

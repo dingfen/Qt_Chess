@@ -1,4 +1,4 @@
-#ifndef KING_H
+﻿#ifndef KING_H
 #define KING_H
 
 #include "chess.h"
@@ -9,8 +9,8 @@ public:
     explicit BlackKing(int, int);
     explicit BlackKing(const Mesh&);
     ~BlackKing();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
-
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
     static QString classname();
 private:
     void init(int x, int y);
@@ -22,8 +22,8 @@ public:
     explicit RedKing(int, int);
     explicit RedKing(const Mesh&);
     ~RedKing();
-    PlaceVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
-
+    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    QJsonObject toJson() override;
     static QString classname();
 private:
     void init(int x, int y);

@@ -1,7 +1,15 @@
-#include "jsonparser.h"
+﻿#include "jsonparser.h"
+
+JsonParser::JsonParser() {
+
+}
 
 JsonParser::JsonParser(const QString& path) {
-    QFile file(path);
+    file.setFileName(path);
+}
+
+void JsonParser::openAndRead(const QString& path) {
+    file.setFileName(path);
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "Open " << path << " error!";
     }
@@ -35,6 +43,21 @@ void JsonParser::parseJson() {
     }
 }
 
+
+void JsonParser::writeJson(const QVector<QJsonObject>& obj_vec) {
+    QJsonArray ja;
+    QJsonDocument doc;
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "Json file Open error!";
+        return;
+    }
+    for(auto &obj : obj_vec) {
+        ja.append(obj);
+    }
+    doc.setArray(ja);
+    file.write(doc.toJson());
+    file.close();
+}
 
 bool JsonParser::get(QJsonObject *ptr) {
     if (!objs_.empty()) {
