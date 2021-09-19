@@ -16,6 +16,7 @@ void BlackPawn::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(300, 0, 50, 50));
     setPoint(QPoint(x, y));
+    chess_name_ = QString(cur_pos_.meshx()+'0')+" 黑卒";
 }
 
 BlackPawn::~BlackPawn() {
@@ -30,20 +31,16 @@ BlackPawn::MeshVecSptr
     BlackPawn::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
     move_range_.clear();
     QSharedPointer<Chess> c;
-//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (y > 5) {
         if (y+1 < 11 && (!(c = cb[y][x-1]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x, y+1), 1));
             move_range_.append(Mesh(x, y+1));
         }
         if (x+1 < 10 && (!(c = cb[y-1][x]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x+1, y), 1));
             move_range_.append(Mesh(x+1, y));
         }
         if (x-1 > 0 && (!(c = cb[y-1][x-2]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x-1, y), 1));
             move_range_.append(Mesh(x-1, y));
         }
     } else {
@@ -82,6 +79,7 @@ RedPawn::RedPawn(const Mesh& mesh): Chess() {
 void RedPawn::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(300, 50, 50, 50));
     setPoint(QPoint(x, y));
+    chess_name_ = QString(cur_pos_.meshx()+'0') + " 红兵";
 }
 
 RedPawn::~RedPawn() {
@@ -97,25 +95,20 @@ RedPawn::MeshVecSptr
     RedPawn::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
     move_range_.clear();
     QSharedPointer<Chess> c;
-//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (y < 6) {
         if (y-1 > 0 && (!(c = cb[y-2][x-1]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x, y-1), 1));
             move_range_.append(Mesh(x, y-1));
         }
         if (x+1 < 10 && (!(c = cb[y-1][x]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x+1, y), 1));
             move_range_.append(Mesh(x+1, y));
         }
         if (x-1 > 0 && (!(c = cb[y-1][x-2]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x-1, y), 1));
             move_range_.append(Mesh(x-1, y));
         }
     } else {
         if (y-1 < 11 && (!(c = cb[y-2][x-1]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x, y-1), 1));
             move_range_.append(Mesh(x, y-1));
         }
     }

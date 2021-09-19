@@ -1,15 +1,19 @@
 ﻿#include "chessscene.h"
 
 ChessScene::ChessScene(QObject *parent) : QGraphicsScene(parent),
-    is_start_(false), chess_vec(10, QVector<QSharedPointer<Chess>>(9)),
-    chess_board_(nullptr), chess_place_move_to_(nullptr), move_vec({}), selected_chess_(nullptr),
-    is_red_check_(false), is_black_check_(false), is_red_move_(true) {
+    is_start_(false), is_red_check_(false), is_black_check_(false), is_red_move_(true),
+    is_regret_(false), chess_vec(10, QVector<QSharedPointer<Chess>>(9)), chess_board_(nullptr),
+    chess_place_move_to_(nullptr), move_vec({}), selected_chess_(nullptr) {
     // no index just search all item in scene
     // apply to move add remove freq case
     this->setItemIndexMethod(QGraphicsScene::NoIndex);
+    // new a chess board
     chess_board_.reset(new ChessBoard(*ResourceManager::get().chessBoardPixmap()));
     this->addItem(chess_board_.get());
+    // register for factory
     registerClass();
+    // new recorder
+    recorder_.reset(new Recorder);
 }
 
 ChessScene::~ChessScene() {
@@ -53,16 +57,12 @@ void ChessScene::saveGame(const QString &path) {
     jp.writeJson(obj_vec);
 }
 
-void ChessScene::write(const QString& str) {
-    emit recordHistory(str);
-}
 
 void ChessScene::putAllChess(const QString& path) {
-    write("<font color=\"#707070\">装载新游戏：" + path + " ...</font>");
-    qDebug() << "Loading " << path << " ...";
     JsonParser jp;
     jp.openAndRead(path);
     jp.parseJson();
+    recorder_->write("Load " + path + " ...");
     QJsonObject obj;
     while (jp.get(&obj)) {
         QString color = obj.value("Color").toString();
@@ -74,7 +74,8 @@ void ChessScene::putAllChess(const QString& path) {
         chess_vec[y-1][x-1] = ptr;
         this->addItem(ptr.get());
     }
-    write("<font color=\"#B00000\">开始对弈！红方先行</font>");
+    recorder_->write("Load Completed!");
+    recorder_->write("游戏开始，红方先行");
 }
 
 void ChessScene::clear() {
@@ -142,12 +143,32 @@ void ChessScene::isCheck(const Mesh& m) {
     }
 }
 
+void ChessScene::regret() {
+    if (!is_regret_) {
+        Recorder::Round r = recorder_->regret();
+        qDebug() << "regret";
+        r.move_->animate(r.from_);
+        chess_vec[r.from_.meshy()-1][r.from_.meshx()-1].swap(
+        chess_vec[r.to_.meshy()-1][r.to_.meshx()-1]);
+        if (r.eaten_) {
+            chess_vec[r.to_.meshy()-1][r.to_.meshx()-1] = r.eaten_;
+            addItem(chess_vec[r.to_.meshy()-1][r.to_.meshx()-1].get());
+        }
+        is_red_move_ = !is_red_move_;
+        is_regret_ = true;
+    }
+}
+
 void ChessScene::move(const Mesh& m) {
     Mesh pos = selected_chess_->getMesh();
     selected_chess_->animate(m);
+    recorder_->record(chess_vec, pos, m, is_red_move_);
     chess_vec[m.meshy()-1][m.meshx()-1].swap(selected_chess_);
     chess_vec[pos.meshy()-1][pos.meshx()-1].clear();
-    selected_chess_.clear();
+    if (selected_chess_) {
+        removeItem(selected_chess_.get());
+        selected_chess_.clear();
+    }
 }
 
 void ChessScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
@@ -160,9 +181,9 @@ void ChessScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
                 if (isValid(mpos)) {
                     unSelectValidPlace();
                     move(mpos);
-                    isCheck(mpos);
+//                    isCheck(mpos);
                     is_red_move_ = !is_red_move_;
-                    emit nextRound(is_red_move_);
+                    is_regret_ = false;
                 }
                 return ;
             }

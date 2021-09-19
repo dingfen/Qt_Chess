@@ -1,4 +1,4 @@
-#include "mesh.h"
+﻿#include "mesh.h"
 
 Mesh::Mesh(int x, int y) : x_(x), y_(y) {
 }
@@ -68,4 +68,11 @@ int Mesh::meshy() const {
 
 bool Mesh::operator==(const Mesh& mesh) const{
     return x_ == mesh.x_ && y_ == mesh.y_;
+}
+
+
+QString Mesh::to_qstr() const {
+    QString str;
+    str = "[" + QString(x_+'0') + "," + QString(y_+'0') + "]";
+    return str;
 }

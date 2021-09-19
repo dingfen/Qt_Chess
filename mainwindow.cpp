@@ -15,14 +15,12 @@ void MainWindow::init() {
     ui->chessboard->setScene(scene_.get());
     ui->chessboard->setMouseTracking(true);
 
-    connect(scene_.get(), &ChessScene::recordHistory,
+    connect(scene_->getRecorder(), &Recorder::recordHistory,
             this, &MainWindow::writeHistory);
-    connect(scene_.get(), &ChessScene::nextRound,
-            this, &MainWindow::displayRound);
     connect(ui->startbutton, SIGNAL(clicked(bool)),
             this, SLOT(startGame()));
-    connect(ui->regretbutton, SIGNAL(clicked(bool)),
-            this, SLOT(regret()));
+    connect(ui->regretbutton, &QPushButton::clicked,
+            this->scene_.get(), &ChessScene::regret);
 }
 
 void MainWindow::startGame(const QString& path) {
@@ -66,13 +64,6 @@ void MainWindow::regret() {
 
 void MainWindow::writeHistory(const QString& str) {
     ui->historyboard->appendHtml(str);
-}
-
-void MainWindow::displayRound(bool redmove) {
-    if (redmove)
-        ui->label->setText("红方回合");
-    else
-        ui->label->setText("黑方回合");
 }
 
 MainWindow::~MainWindow() {

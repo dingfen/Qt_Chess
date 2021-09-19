@@ -1,8 +1,9 @@
-#ifndef MESH_H
+﻿#ifndef MESH_H
 #define MESH_H
 
 #include <QPoint>
 #include <QPointF>
+#include <QString>
 
 class Mesh {
 public:
@@ -21,6 +22,7 @@ public:
     int y() const;
     int meshx() const;
     int meshy() const;
+    QString to_qstr() const;
 
     bool operator==(const Mesh&) const;
 private:

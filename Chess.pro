@@ -23,6 +23,7 @@ SOURCES += \
     mainwindow.cpp \
     mesh.cpp \
     pawn.cpp \
+    recorder.cpp \
     resourcemanager.cpp \
     rook.cpp
 
@@ -41,6 +42,7 @@ HEADERS += \
     mainwindow.h \
     mesh.h \
     pawn.h \
+    recorder.h \
     resourcemanager.h \
     rook.h
 

@@ -3,14 +3,14 @@
 #pragma execution_character_set("utf-8")
 
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QMessageBox>
 #include "chessboard.h"
 #include "resourcemanager.h"
 #include "chessscene.h"
-#include <QFileDialog>
-#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class MainWindow; class Recorder;}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -27,7 +27,6 @@ public slots:
     void saveGame();
     void regret();
     void writeHistory(const QString &str);
-    void displayRound(bool);
 private:
     void init();
 

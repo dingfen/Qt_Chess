@@ -16,6 +16,12 @@ void BlackKnight::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(150, 0, 50, 50));
     setPoint(QPoint(x, y));
+    if (cur_pos_.meshx() == 2)
+        chess_name_ = "左黑马";
+    else if (cur_pos_.meshx() == 8)
+        chess_name_ = "右黑马";
+    else
+        chess_name_ = "黑马";
 }
 
 BlackKnight::~BlackKnight() {
@@ -67,14 +73,12 @@ BlackKnight::MeshVecSptr
     if (y-2 > 0 && x+1 < 10) {
         if ((!(d = cb[y-2][x-1])) &&
               (!(c = cb[y-3][x]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x+1, y-2), 1));
             move_range_.append(Mesh(x+1, y-2));
         }
     }
     if (y-2 > 0 && x-1 > 0) {
         if ((!(d = cb[y-2][x-1])) &&
               (!(c = cb[y-3][x-2]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x-1, y-2), 1));
             move_range_.append(Mesh(x-1, y-2));
         }
     }
@@ -82,7 +86,6 @@ BlackKnight::MeshVecSptr
     if (y+2 < 11 && x+1 < 10) {
         if ((!(d = cb[y][x-1])) &&
               (!(c = cb[y+1][x]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x+1, y+2), 1));
             move_range_.append(Mesh(x+1, y+2));
         }
     }
@@ -123,6 +126,12 @@ RedKnight::RedKnight(const Mesh& mesh): Chess() {
 void RedKnight::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(150, 50, 50, 50));
     setPoint(QPoint(x, y));
+    if (cur_pos_.meshx() == 2)
+        chess_name_ = "左红马";
+    else if (cur_pos_.meshx() == 8)
+        chess_name_ = "右红马";
+    else
+        chess_name_ = "红马";
 }
 
 RedKnight::~RedKnight() {
@@ -143,7 +152,6 @@ RedKnight::MeshVecSptr
     if (y-1 > 0 && x-2 > 0) {
         if ((!(d = cb[y-1][x-2])) &&
               (!(c = cb[y-2][x-3]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x-2, y-1), 1));
             move_range_.append(Mesh(x-2, y-1));
         }
     }
@@ -158,7 +166,6 @@ RedKnight::MeshVecSptr
     if (y-1 > 0 && x+2 < 10) {
         if ((!(d = cb[y-1][x])) &&
               (!(c = cb[y-2][x+1]) || c->isRed() != redmove)) {
-//            cp.reset(new ChessPlace(Mesh(x+2, y-1), 1));
             move_range_.append(Mesh(x+2, y-1));
         }
     }

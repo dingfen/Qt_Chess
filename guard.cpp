@@ -16,6 +16,12 @@ void BlackGuard::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(50, 0, 50, 50));
     setPoint(QPoint(x, y));
+    if (cur_pos_.meshx() == 4)
+        chess_name_ = "左黑士";
+    else if (cur_pos_.meshx() == 6)
+        chess_name_ = "右黑士";
+    else
+        chess_name_ = "黑士";
 }
 
 BlackGuard::~BlackGuard() {
@@ -34,19 +40,16 @@ BlackGuard::MeshVecSptr
     int y = cur_pos_.meshy();
     if (x+1 <= 6 && y+1 <= 3) {
         if (!(c = cb[y][x]) || c->isRed() != redmove) {
-//            cp.reset(new ChessPlace(Mesh(x+1, y+1), 1));
             move_range_.append(Mesh(x+1, y+1));
         }
     }
     if (x+1 <= 6 && y-1 > 0) {
         if (!(c = cb[y-2][x]) || c->isRed() != redmove) {
-//            cp.reset(new ChessPlace(Mesh(x+1, y-1), 1));
             move_range_.append(Mesh(x+1, y-1));
         }
     }
     if (x-1 >= 4 && y+1 <= 3) {
         if (!(c = cb[y][x-2]) || c->isRed() != redmove) {
-//            cp.reset(new ChessPlace(Mesh(x-1, y+1), 1));
             move_range_.append(Mesh(x-1, y+1));
         }
     }
@@ -86,6 +89,12 @@ RedGuard::RedGuard(const Mesh& mesh): Chess() {
 void RedGuard::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(50, 50, 50, 50));
     setPoint(QPoint(x, y));
+    if (cur_pos_.meshx() == 4)
+        chess_name_ = "左红士";
+    else if (cur_pos_.meshx() == 6)
+        chess_name_ = "右红士";
+    else
+        chess_name_ = "红士";
 }
 
 RedGuard::~RedGuard() {
@@ -100,12 +109,10 @@ RedGuard::MeshVecSptr
     RedGuard::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
     move_range_.clear();
     QSharedPointer<Chess> c;
-//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (x+1 <= 6 && y+1 <= 10) {
         if (!(c = cb[y][x]) || c->isRed() != redmove) {
-//            cp.reset(new ChessPlace(Mesh(x+1, y+1), 1));
             move_range_.append(Mesh(x+1, y+1));
         }
     }

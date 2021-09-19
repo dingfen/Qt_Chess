@@ -1,5 +1,6 @@
 ﻿#ifndef CHESS_H
 #define CHESS_H
+#pragma execution_character_set("utf-8")
 
 #include <QCursor>
 #include <QEvent>
@@ -26,6 +27,9 @@ public:
     bool isRed() {
         return is_red_;
     }
+    QString chessname() {
+        return chess_name_;
+    }
 
     virtual MeshVecSptr generateNextPlace(const ChessVecSptr&, bool)=0;
     virtual QJsonObject toJson()=0;
@@ -34,6 +38,7 @@ protected:
     Mesh cur_pos_;
     bool is_red_;
     MeshVecSptr move_range_;
+    QString chess_name_;
     QSharedPointer<QGraphicsItemAnimation> anim;
     QSharedPointer<QTimeLine> tl;
 

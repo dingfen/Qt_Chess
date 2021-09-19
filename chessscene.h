@@ -7,6 +7,7 @@
 #include <QDebug>
 #include "resourcemanager.h"
 #include "chessboard.h"
+#include "recorder.h"
 #include "mesh.h"
 
 class ChessScene : public QGraphicsScene {
@@ -23,12 +24,11 @@ public:
     }
     void startGame(const QString& path);
     void saveGame(const QString& path);
-    void write(const QString&);
+    void regret();
     void clear();
-
-signals:
-    void recordHistory(const QString&);
-    void nextRound(bool);
+    Recorder* getRecorder() {
+        return recorder_.get();
+    }
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *);
@@ -36,15 +36,17 @@ protected:
 
 private:
     bool is_start_;
+    bool is_red_check_;
+    bool is_black_check_;
+    bool is_red_move_;
+    bool is_regret_;
+
     ChessVecSptr chess_vec;
     QSharedPointer<ChessBoard> chess_board_;
     QSharedPointer<ChessPlace> chess_place_move_to_;
     PlaceVecSptr move_vec;
     QSharedPointer<Chess>   selected_chess_;
-
-    bool is_red_check_;
-    bool is_black_check_;
-    bool is_red_move_;
+    QSharedPointer<Recorder> recorder_;
 
     void registerClass();
     void putAllChess(const QString& filepath);
