@@ -9,7 +9,7 @@ public:
     explicit BlackCannon(int, int);
     explicit BlackCannon(const Mesh&);
     ~BlackCannon();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
     static QString classname();
 private:
@@ -22,7 +22,7 @@ public:
     explicit RedCannon(int, int);
     explicit RedCannon(const Mesh&);
     ~RedCannon();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
     static QString classname();
 private:

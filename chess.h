@@ -20,10 +20,16 @@ public:
     explicit Chess();
     ~Chess();
 
+    void setPoint(const Mesh&);
+    void setPoint(const QPoint&);
     Mesh getMesh() {
         return cur_pos_;
     }
-    void animate(const Mesh&);
+    MeshVecSptr& attackRegion() {
+        return move_range_;
+    }
+
+    void animate(const Mesh &);
     bool isRed() {
         return is_red_;
     }
@@ -31,7 +37,7 @@ public:
         return chess_name_;
     }
 
-    virtual MeshVecSptr generateNextPlace(const ChessVecSptr&, bool)=0;
+    virtual MeshVecSptr generateNextPlace(const ChessVecSptr&)=0;
     virtual QJsonObject toJson()=0;
     static QString classname();
 protected:
@@ -41,9 +47,6 @@ protected:
     QString chess_name_;
     QSharedPointer<QGraphicsItemAnimation> anim;
     QSharedPointer<QTimeLine> tl;
-
-    void setPoint(const Mesh&);
-    void setPoint(const QPoint&);
 
 private:
     void init();

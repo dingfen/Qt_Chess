@@ -21,6 +21,8 @@ void MainWindow::init() {
             this, SLOT(startGame()));
     connect(ui->regretbutton, &QPushButton::clicked,
             this->scene_.get(), &ChessScene::regret);
+    connect(scene_.get(), &ChessScene::nextRound,
+            this, &MainWindow::nextRound);
 }
 
 void MainWindow::startGame(const QString& path) {
@@ -56,14 +58,30 @@ void MainWindow::saveGame() {
     scene_->saveGame(path);
 }
 
-void MainWindow::regret() {
-    if (scene_->isStart()) {
-
-    }
+void MainWindow::overGame() {
+     auto sure = QMessageBox::information(this, tr("认输"), tr("真的要认输吗"),
+                             QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+     if (sure == QMessageBox::Yes) {
+         bool isred = scene_->who();
+         if (isred)
+            QMessageBox::information(this, tr("游戏结束"), tr("游戏结束，黑方胜利"),
+                             QMessageBox::Ok);
+         else
+             QMessageBox::information(this, tr("游戏结束"), tr("游戏结束，红方胜利"),
+                              QMessageBox::Ok);
+         scene_->clear();
+     }
 }
 
 void MainWindow::writeHistory(const QString& str) {
     ui->historyboard->appendHtml(str);
+}
+
+void MainWindow::nextRound(bool isred) {
+    if (isred)
+        ui->label->setText("红方回合");
+    else
+        ui->label->setText("黑方回合");
 }
 
 MainWindow::~MainWindow() {

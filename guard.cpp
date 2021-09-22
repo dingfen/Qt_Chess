@@ -33,28 +33,28 @@ QString BlackGuard::classname() {
 }
 
 BlackGuard::MeshVecSptr
-    BlackGuard::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    BlackGuard::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     QSharedPointer<Chess> c;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (x+1 <= 6 && y+1 <= 3) {
-        if (!(c = cb[y][x]) || c->isRed() != redmove) {
+        if (!(c = cb[y][x]) || c->isRed() != is_red_) {
             move_range_.append(Mesh(x+1, y+1));
         }
     }
     if (x+1 <= 6 && y-1 > 0) {
-        if (!(c = cb[y-2][x]) || c->isRed() != redmove) {
+        if (!(c = cb[y-2][x]) || c->isRed() != is_red_) {
             move_range_.append(Mesh(x+1, y-1));
         }
     }
     if (x-1 >= 4 && y+1 <= 3) {
-        if (!(c = cb[y][x-2]) || c->isRed() != redmove) {
+        if (!(c = cb[y][x-2]) || c->isRed() != is_red_) {
             move_range_.append(Mesh(x-1, y+1));
         }
     }
     if (x-1 >= 4 && y-1 > 0) {
-        if (!(c = cb[y-2][x-2]) || c->isRed() != redmove) {
+        if (!(c = cb[y-2][x-2]) || c->isRed() != is_red_) {
             move_range_.append(Mesh(x-1, y-1));
         }
     }
@@ -106,28 +106,28 @@ QString RedGuard::classname() {
 }
 
 RedGuard::MeshVecSptr
-    RedGuard::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    RedGuard::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     QSharedPointer<Chess> c;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     if (x+1 <= 6 && y+1 <= 10) {
-        if (!(c = cb[y][x]) || c->isRed() != redmove) {
+        if (!(c = cb[y][x]) || c->isRed() != is_red_) {
             move_range_.append(Mesh(x+1, y+1));
         }
     }
     if (x+1 <= 6 && y-1 >= 8) {
-        if (!(c = cb[y-2][x]) || c->isRed() != redmove) {
+        if (!(c = cb[y-2][x]) || c->isRed() != is_red_) {
             move_range_.append(Mesh(x+1, y-1));
         }
     }
     if (x-1 >= 4 && y+1 <= 10) {
-        if (!(c = cb[y][x-2]) || c->isRed() != redmove) {
+        if (!(c = cb[y][x-2]) || c->isRed() != is_red_) {
             move_range_.append(Mesh(x-1, y+1));
         }
     }
     if (x-1 >= 4 && y-1 >= 8) {
-        if (!(c = cb[y-2][x-2]) || c->isRed() != redmove) {
+        if (!(c = cb[y-2][x-2]) || c->isRed() != is_red_) {
             move_range_.append(Mesh(x-1, y-1));
         }
     }

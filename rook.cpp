@@ -35,7 +35,7 @@ QString BlackRook::classname() {
 
 
 BlackRook::MeshVecSptr
-    BlackRook::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    BlackRook::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
@@ -45,7 +45,7 @@ BlackRook::MeshVecSptr
         move_range_.append(Mesh(i, y));
         i--;
     }
-    if (c && c->isRed() != redmove) {
+    if (c && c->isRed() != is_red_) {
         move_range_.append(Mesh(i, y));
     }
     c.clear();
@@ -54,7 +54,7 @@ BlackRook::MeshVecSptr
         move_range_.append(Mesh(i, y));
         i++;
     }
-    if (c && c->isRed() != redmove) {
+    if (c && c->isRed() != is_red_) {
         move_range_.append(Mesh(i, y));
     }
     c.clear();
@@ -63,7 +63,7 @@ BlackRook::MeshVecSptr
         move_range_.append(Mesh(x, i));
         i--;
     }
-    if (c && c->isRed() != redmove) {
+    if (c && c->isRed() != is_red_) {
         move_range_.append(Mesh(x, i));
     }
     c.clear();
@@ -72,7 +72,7 @@ BlackRook::MeshVecSptr
         move_range_.append(Mesh(x, i));
         i++;
     }
-    if (c && c->isRed() != redmove) {
+    if (c && c->isRed() != is_red_) {
         move_range_.append(Mesh(x, i));
     }
     return move_range_;
@@ -123,7 +123,7 @@ QString RedRook::classname() {
 }
 
 RedRook::MeshVecSptr
-    RedRook::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+    RedRook::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
@@ -133,7 +133,7 @@ RedRook::MeshVecSptr
         move_range_.append(Mesh(i, y));
         i--;
     }
-    if (c && c->isRed() != redmove) {
+    if (c && c->isRed() != is_red_) {
         move_range_.append(Mesh(i, y));
     }
     c.clear();
@@ -142,7 +142,7 @@ RedRook::MeshVecSptr
         move_range_.append(Mesh(i, y));
         i++;
     }
-    if (c && c->isRed() != redmove) {
+    if (c && c->isRed() != is_red_) {
         move_range_.append(Mesh(i, y));
     }
     c.clear();
@@ -151,7 +151,7 @@ RedRook::MeshVecSptr
         move_range_.append(Mesh(x, i));
         i--;
     }
-    if (c && c->isRed() != redmove) {
+    if (c && c->isRed() != is_red_) {
         move_range_.append(Mesh(x, i));
     }
     c.clear();
@@ -160,7 +160,7 @@ RedRook::MeshVecSptr
         move_range_.append(Mesh(x, i));
         i++;
     }
-    if (c && c->isRed() != redmove) {
+    if (c && c->isRed() != is_red_) {
         move_range_.append(Mesh(x, i));
     }
     return move_range_;

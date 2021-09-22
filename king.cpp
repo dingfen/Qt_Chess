@@ -28,25 +28,25 @@ QString BlackKing::classname() {
 }
 
 BlackKing::MeshVecSptr
-  BlackKing::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+  BlackKing::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     QSharedPointer<Chess> c;
 //    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
-    if (y+1 < 4 && (!(c = cb[y][x-1]) || c->isRed() != redmove)) {
+    if (y+1 < 4 && (!(c = cb[y][x-1]) || c->isRed() != is_red_)) {
 //        cp.reset(new ChessPlace(Mesh(x, y+1), 1));
         move_range_.append(Mesh(x, y+1));
     }
-    if (x+1 < 7 && (!(c = cb[y-1][x]) || c->isRed() != redmove)) {
+    if (x+1 < 7 && (!(c = cb[y-1][x]) || c->isRed() != is_red_)) {
 //        cp.reset(new ChessPlace(Mesh(x+1, y), 1));
         move_range_.append(Mesh(x+1, y));
     }
-    if (x-1 > 3 && (!(c = cb[y-1][x-2]) || c->isRed() != redmove)) {
+    if (x-1 > 3 && (!(c = cb[y-1][x-2]) || c->isRed() != is_red_)) {
 //        cp.reset(new ChessPlace(Mesh(x-1, y), 1));
         move_range_.append(Mesh(x-1, y));
     }
-    if (y-1 > 0 && (!(c = cb[y-2][x-1]) || c->isRed() != redmove)) {
+    if (y-1 > 0 && (!(c = cb[y-2][x-1]) || c->isRed() != is_red_)) {
 //        cp.reset(new ChessPlace(Mesh(x, y-1), 1));
         move_range_.append(Mesh(x, y-1));
     }
@@ -101,24 +101,24 @@ QString RedKing::classname() {
 }
 
 RedKing::MeshVecSptr
-  RedKing::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+  RedKing::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     QSharedPointer<Chess> c;
 //    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
-    if (y+1 < 11 && (!(c = cb[y][x-1]) || c->isRed() != redmove)) {
+    if (y+1 < 11 && (!(c = cb[y][x-1]) || c->isRed() != is_red_)) {
 //        cp.reset(new ChessPlace(Mesh(x, y+1), 1));
         move_range_.append(Mesh(x, y+1));
     }
-    if (x+1 < 7 && (!(c = cb[y-1][x]) || c->isRed() != redmove)) {
+    if (x+1 < 7 && (!(c = cb[y-1][x]) || c->isRed() != is_red_)) {
 //        cp.reset(new ChessPlace(Mesh(x+1, y), 1));
         move_range_.append(Mesh(x+1, y));
     }
-    if (x-1 > 3 && (!(c = cb[y-1][x-2]) || c->isRed() != redmove)) {
+    if (x-1 > 3 && (!(c = cb[y-1][x-2]) || c->isRed() != is_red_)) {
         move_range_.append(Mesh(x-1, y));
     }
-    if (y-1 > 7 && (!(c = cb[y-2][x-1]) || c->isRed() != redmove)) {
+    if (y-1 > 7 && (!(c = cb[y-2][x-1]) || c->isRed() != is_red_)) {
         move_range_.append(Mesh(x, y-1));
     }
     int i = y-1;

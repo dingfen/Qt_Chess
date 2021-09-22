@@ -33,7 +33,7 @@ QString BlackKnight::classname() {
 }
 
 BlackKnight::MeshVecSptr
-  BlackKnight::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+  BlackKnight::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     QSharedPointer<Chess> c;
     QSharedPointer<Chess> d;
@@ -42,14 +42,14 @@ BlackKnight::MeshVecSptr
     int y = cur_pos_.meshy();
     if (y-1 > 0 && x-2 > 0) {
         if ((!(d = cb[y-1][x-2])) &&
-              (!(c = cb[y-2][x-3]) || c->isRed() != redmove)) {
+              (!(c = cb[y-2][x-3]) || c->isRed() != is_red_)) {
 //            cp.reset(new ChessPlace(Mesh(x-2, y-1), 1));
             move_range_.append(Mesh(x-2, y-1));
         }
     }
     if (y+1 < 11 && x-2 > 0) {
         if ((!(d = cb[y-1][x-2])) &&
-              (!(c = cb[y][x-3]) || c->isRed() != redmove)) {
+              (!(c = cb[y][x-3]) || c->isRed() != is_red_)) {
 //            cp.reset(new ChessPlace(Mesh(x-2, y+1), 1));
             move_range_.append(Mesh(x-2, y+1));
         }
@@ -57,14 +57,14 @@ BlackKnight::MeshVecSptr
 
     if (y-1 > 0 && x+2 < 10) {
         if ((!(d = cb[y-1][x])) &&
-              (!(c = cb[y-2][x+1]) || c->isRed() != redmove)) {
+              (!(c = cb[y-2][x+1]) || c->isRed() != is_red_)) {
 //            cp.reset(new ChessPlace(Mesh(x+2, y-1), 1));
             move_range_.append(Mesh(x+2, y-1));
         }
     }
     if (y+1 < 11 && x+2 < 10) {
         if ((!(d = cb[y-1][x])) &&
-              (!(c = cb[y][x+1]) || c->isRed() != redmove)) {
+              (!(c = cb[y][x+1]) || c->isRed() != is_red_)) {
 //            cp.reset(new ChessPlace(Mesh(x+2, y+1), 1));
             move_range_.append(Mesh(x+2, y+1));
         }
@@ -72,26 +72,26 @@ BlackKnight::MeshVecSptr
 
     if (y-2 > 0 && x+1 < 10) {
         if ((!(d = cb[y-2][x-1])) &&
-              (!(c = cb[y-3][x]) || c->isRed() != redmove)) {
+              (!(c = cb[y-3][x]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x+1, y-2));
         }
     }
     if (y-2 > 0 && x-1 > 0) {
         if ((!(d = cb[y-2][x-1])) &&
-              (!(c = cb[y-3][x-2]) || c->isRed() != redmove)) {
+              (!(c = cb[y-3][x-2]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x-1, y-2));
         }
     }
 
     if (y+2 < 11 && x+1 < 10) {
         if ((!(d = cb[y][x-1])) &&
-              (!(c = cb[y+1][x]) || c->isRed() != redmove)) {
+              (!(c = cb[y+1][x]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x+1, y+2));
         }
     }
     if (y+2 < 11 && x-1 > 0) {
         if ((!(d = cb[y][x-1])) &&
-              (!(c = cb[y+1][x-2]) || c->isRed() != redmove)) {
+              (!(c = cb[y+1][x-2]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x-1, y+2));
         }
     }
@@ -143,7 +143,7 @@ QString RedKnight::classname() {
 }
 
 RedKnight::MeshVecSptr
-  RedKnight::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+  RedKnight::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     QSharedPointer<Chess> c;
     QSharedPointer<Chess> d;
@@ -151,13 +151,13 @@ RedKnight::MeshVecSptr
     int y = cur_pos_.meshy();
     if (y-1 > 0 && x-2 > 0) {
         if ((!(d = cb[y-1][x-2])) &&
-              (!(c = cb[y-2][x-3]) || c->isRed() != redmove)) {
+              (!(c = cb[y-2][x-3]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x-2, y-1));
         }
     }
     if (y+1 < 11 && x-2 > 0) {
         if ((!(d = cb[y-1][x-2])) &&
-              (!(c = cb[y][x-3]) || c->isRed() != redmove)) {
+              (!(c = cb[y][x-3]) || c->isRed() != is_red_)) {
 //            cp.reset(new ChessPlace(Mesh(x-2, y+1), 1));
             move_range_.append(Mesh(x-2, y+1));
         }
@@ -165,13 +165,13 @@ RedKnight::MeshVecSptr
 
     if (y-1 > 0 && x+2 < 10) {
         if ((!(d = cb[y-1][x])) &&
-              (!(c = cb[y-2][x+1]) || c->isRed() != redmove)) {
+              (!(c = cb[y-2][x+1]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x+2, y-1));
         }
     }
     if (y+1 < 11 && x+2 < 10) {
         if ((!(d = cb[y-1][x])) &&
-              (!(c = cb[y][x+1]) || c->isRed() != redmove)) {
+              (!(c = cb[y][x+1]) || c->isRed() != is_red_)) {
 //            cp.reset(new ChessPlace(Mesh(x+2, y+1), 1));
             move_range_.append(Mesh(x+2, y+1));
         }
@@ -179,14 +179,14 @@ RedKnight::MeshVecSptr
 
     if (y-2 > 0 && x+1 < 10) {
         if ((!(d = cb[y-2][x-1])) &&
-              (!(c = cb[y-3][x]) || c->isRed() != redmove)) {
+              (!(c = cb[y-3][x]) || c->isRed() != is_red_)) {
 //            cp.reset(new ChessPlace(Mesh(x+1, y-2), 1));
             move_range_.append(Mesh(x+1, y-2));
         }
     }
     if (y-2 > 0 && x-1 > 0) {
         if ((!(d = cb[y-2][x-1])) &&
-              (!(c = cb[y-3][x-2]) || c->isRed() != redmove)) {
+              (!(c = cb[y-3][x-2]) || c->isRed() != is_red_)) {
 //            cp.reset(new ChessPlace(Mesh(x-1, y-2), 1));
             move_range_.append(Mesh(x-1, y-2));
         }
@@ -194,13 +194,13 @@ RedKnight::MeshVecSptr
 
     if (y+2 < 11 && x+1 < 10) {
         if ((!(d = cb[y][x-1])) &&
-              (!(c = cb[y+1][x]) || c->isRed() != redmove)) {
+              (!(c = cb[y+1][x]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x+1, y+2));
         }
     }
     if (y+2 < 11 && x-1 > 0) {
         if ((!(d = cb[y][x-1])) &&
-              (!(c = cb[y+1][x-2]) || c->isRed() != redmove)) {
+              (!(c = cb[y+1][x-2]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x-1, y+2));
         }
     }

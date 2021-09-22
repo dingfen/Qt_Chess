@@ -9,7 +9,7 @@ public:
     explicit BlackBishop(int, int);
     explicit BlackBishop(const Mesh&);
     ~BlackBishop();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
     static QString classname();
 private:
@@ -22,7 +22,7 @@ public:
     explicit RedBishop(int, int);
     explicit RedBishop(const Mesh&);
     ~RedBishop();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
     static QString classname();
 private:

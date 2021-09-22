@@ -10,10 +10,10 @@ ChessScene::ChessScene(QObject *parent) : QGraphicsScene(parent),
     // new a chess board
     chess_board_.reset(new ChessBoard(*ResourceManager::get().chessBoardPixmap()));
     this->addItem(chess_board_.get());
-    // register for factory
-    registerClass();
     // new recorder
     recorder_.reset(new Recorder);
+    // register for factory
+    registerClass();
 }
 
 ChessScene::~ChessScene() {
@@ -41,6 +41,8 @@ void ChessScene::registerClass() {
 void ChessScene::startGame(const QString &path) {
     is_start_ = true;
     this->putAllChess(path);
+    updateAttackRegion();
+    recorder_->write("Load Completed!");
 }
 
 void ChessScene::saveGame(const QString &path) {
@@ -71,11 +73,14 @@ void ChessScene::putAllChess(const QString& path) {
         int y = obj.value("Y").toInt();
 
         QSharedPointer<Chess> ptr(ChessFactory::createObject(classname, Mesh(x, y)));
+        if (classname == "BlackKing") {
+            black_king_ = ptr;
+        } else if (classname == "RedKing") {
+            red_king_ = ptr;
+        }
         chess_vec[y-1][x-1] = ptr;
         this->addItem(ptr.get());
     }
-    recorder_->write("Load Completed!");
-    recorder_->write("游戏开始，红方先行");
 }
 
 void ChessScene::clear() {
@@ -96,7 +101,7 @@ void ChessScene::clear() {
 }
 
 void ChessScene::selectValidPlace() {
-    auto mesh_vec = selected_chess_->generateNextPlace(chess_vec, is_red_move_);
+    auto mesh_vec = selected_chess_->attackRegion();
     QSharedPointer<ChessPlace> cp;
     for(auto mesh : mesh_vec) {
         cp.reset(new ChessPlace(mesh, 1));
@@ -118,43 +123,63 @@ void ChessScene::unSelectValidPlace() {
  */
 bool ChessScene::isValid(const Mesh& mesh) {
     for(auto ptr : move_vec) {
-        if (mesh == ptr->getMesh())
+        if (mesh == ptr->getMesh()) {
             return true;
+        }
     }
     return false;
 }
 
-void ChessScene::isCheck(const Mesh& m) {
-    auto just_move = chess_vec[m.meshy()-1][m.meshx()-1];
-    auto attack_zone = just_move->generateNextPlace(chess_vec, is_red_move_);
-    for(auto ptr : attack_zone) {
-        int y = ptr.meshy();
-        int x = ptr.meshx();
-        if (chess_vec[y-1][x-1]) {
-            if (dynamic_cast<BlackKing*>(chess_vec[y-1][x-1].get())) {
-                is_black_check_ = true;
-                qDebug() << "Black is Check!";
-            }
-            if (dynamic_cast<RedKing*>(chess_vec[y-1][x-1].get())) {
-                is_red_check_ = true;
-                qDebug() << "Red is Check!";
+void ChessScene::updateAttackRegion() {
+    for(auto &row : chess_vec)
+        for(auto &chess : row) {
+            if (chess)
+                chess->generateNextPlace(chess_vec);
+        }
+}
+
+bool ChessScene::isCheck() {
+    QSharedPointer<Chess> king = is_red_move_ ? red_king_ : black_king_;
+    for(auto &row : chess_vec) {
+        for(auto &c : row) {
+            if (c && c->isRed() != is_red_move_) {
+                auto region = c->attackRegion();
+                auto kingpos = king->getMesh();
+                for(auto m : region) {
+                    if (kingpos == m) {
+                        return true;
+                    }
+                }
             }
         }
     }
+    return false;
+}
+
+
+void ChessScene::backOneStep() {
+    Recorder::Round r = recorder_->regret();
+    r.move_->animate(r.from_);
+    chess_vec[r.from_.meshy()-1][r.from_.meshx()-1].swap(
+        chess_vec[r.to_.meshy()-1][r.to_.meshx()-1]);
+    if (r.eaten_) {
+        chess_vec[r.to_.meshy()-1][r.to_.meshx()-1] = r.eaten_;
+        addItem(chess_vec[r.to_.meshy()-1][r.to_.meshx()-1].get());
+    }
+}
+
+
+void ChessScene::stillCheck() {
+    qDebug() << "Check!";
+    backOneStep();
+    updateAttackRegion();
 }
 
 void ChessScene::regret() {
-    if (!is_regret_) {
-        Recorder::Round r = recorder_->regret();
-        qDebug() << "regret";
-        r.move_->animate(r.from_);
-        chess_vec[r.from_.meshy()-1][r.from_.meshx()-1].swap(
-        chess_vec[r.to_.meshy()-1][r.to_.meshx()-1]);
-        if (r.eaten_) {
-            chess_vec[r.to_.meshy()-1][r.to_.meshx()-1] = r.eaten_;
-            addItem(chess_vec[r.to_.meshy()-1][r.to_.meshx()-1].get());
-        }
-        is_red_move_ = !is_red_move_;
+    if (is_start_ && !is_regret_) {
+        backOneStep();
+        backOneStep();
+        updateAttackRegion();
         is_regret_ = true;
     }
 }
@@ -181,9 +206,14 @@ void ChessScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
                 if (isValid(mpos)) {
                     unSelectValidPlace();
                     move(mpos);
-//                    isCheck(mpos);
+                    updateAttackRegion();
+                    if (isCheck()) {
+                        stillCheck();
+                        return;
+                    }
                     is_red_move_ = !is_red_move_;
                     is_regret_ = false;
+                    emit nextRound(is_red_move_);
                 }
                 return ;
             }

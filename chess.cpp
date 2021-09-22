@@ -1,4 +1,4 @@
-#include "chess.h"
+﻿#include "chess.h"
 
 Chess::Chess()
     :cur_pos_(0, 0), is_red_(true) {
@@ -27,8 +27,8 @@ void Chess::init() {
     this->setScale(2.0);
     this->setCursor(Qt::PointingHandCursor);
     anim.reset(new QGraphicsItemAnimation);
-    anim->setItem(this);
     tl.reset(new QTimeLine(500));
+    anim->setItem(this);
     anim->setTimeLine(tl.get());
 }
 

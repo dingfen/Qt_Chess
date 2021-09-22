@@ -33,7 +33,7 @@ QString BlackBishop::classname() {
 }
 
 BlackBishop::MeshVecSptr
-  BlackBishop::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+  BlackBishop::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     QSharedPointer<Chess> c;
     QSharedPointer<Chess> d;
@@ -41,25 +41,25 @@ BlackBishop::MeshVecSptr
     int y = cur_pos_.meshy();
     if (x+2 <= 9 && y+2 < 6) {
         if (!(d = cb[y][x]) &&
-             (!(c = cb[y+1][x+1]) || c->isRed() != redmove)) {
+             (!(c = cb[y+1][x+1]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x+2, y+2));
         }
     }
     if (x+2 <= 9 && y-2 > 0) {
         if (!(d = cb[y-2][x]) &&
-             (!(c = cb[y-3][x+1]) || c->isRed() != redmove)) {
+             (!(c = cb[y-3][x+1]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x+2, y-2));
         }
     }
     if (x-2 > 0 && y+2 < 6) {
         if (!(d = cb[y][x-2]) &&
-             (!(c = cb[y+1][x-3]) || c->isRed() != redmove)) {
+             (!(c = cb[y+1][x-3]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x-2, y+2));
         }
     }
     if (x-2 > 0 && y-2 > 0) {
         if (!(d = cb[y-2][x-2]) &&
-             (!(c = cb[y-3][x-3]) || c->isRed() != redmove)) {
+             (!(c = cb[y-3][x-3]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x-2, y-2));
         }
     }
@@ -112,7 +112,7 @@ QString RedBishop::classname() {
 }
 
 RedBishop::MeshVecSptr
-  RedBishop::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+  RedBishop::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     QSharedPointer<Chess> c;
     QSharedPointer<Chess> d;
@@ -120,25 +120,25 @@ RedBishop::MeshVecSptr
     int y = cur_pos_.meshy();
     if (x+2 <= 9 && y+2 < 11) {
         if (!(d = cb[y][x]) &&
-             (!(c = cb[y+1][x+1]) || c->isRed() != redmove)) {
+             (!(c = cb[y+1][x+1]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x+2, y+2));
         }
     }
     if (x+2 <= 9 && y-2 > 5) {
         if (!(d = cb[y-2][x]) &&
-             (!(c = cb[y-3][x+1]) || c->isRed() != redmove)) {
+             (!(c = cb[y-3][x+1]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x+2, y-2));
         }
     }
     if (x-2 > 0 && y+2 < 11) {
         if (!(d = cb[y][x-2]) &&
-             (!(c = cb[y+1][x-3]) || c->isRed() != redmove)) {
+             (!(c = cb[y+1][x-3]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x-2, y+2));
         }
     }
     if (x-2 > 0 && y-2 > 5) {
         if (!(d = cb[y-2][x-2]) &&
-             (!(c = cb[y-3][x-3]) || c->isRed() != redmove)) {
+             (!(c = cb[y-3][x-3]) || c->isRed() != is_red_)) {
             move_range_.append(Mesh(x-2, y-2));
         }
     }

@@ -11,7 +11,7 @@ public:
     explicit BlackPawn(const Mesh&);
     ~BlackPawn();
     static QString classname();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
 
 private:
@@ -25,7 +25,7 @@ public:
     explicit RedPawn(const Mesh&);
     ~RedPawn();
    static QString classname();
-   MeshVecSptr generateNextPlace(const ChessVecSptr&, bool) override;
+   MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
    QJsonObject toJson() override;
 
 private:

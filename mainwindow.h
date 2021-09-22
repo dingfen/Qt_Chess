@@ -25,8 +25,9 @@ public slots:
     void startGame(const QString& path = ":/game/savegame/opening.json");
     void loadGame();
     void saveGame();
-    void regret();
+    void overGame();
     void writeHistory(const QString &str);
+    void nextRound(bool);
 private:
     void init();
 

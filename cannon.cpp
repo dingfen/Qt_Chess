@@ -33,7 +33,7 @@ QString BlackCannon::classname() {
 }
 
 BlackCannon::MeshVecSptr
-  BlackCannon::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+  BlackCannon::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
@@ -46,7 +46,7 @@ BlackCannon::MeshVecSptr
     do {
         i--;
     }while (i > 0 && !(c = cb[y-1][i-1]));
-    if(i > 0 && c && c->isRed() != redmove) {
+    if(i > 0 && c && c->isRed() != is_red_) {
         move_range_.append(Mesh(i, y));
     }
     c.clear();
@@ -58,7 +58,7 @@ BlackCannon::MeshVecSptr
     do {
         i++;
     }while (i < 10 && !(c = cb[y-1][i-1]));
-    if(i < 10 && c && c->isRed() != redmove) {
+    if(i < 10 && c && c->isRed() != is_red_) {
         move_range_.append(Mesh(i, y));
     }
     c.clear();
@@ -70,7 +70,7 @@ BlackCannon::MeshVecSptr
     do {
         i--;
     }while (i > 0 && !(c = cb[i-1][x-1]));
-    if(i > 0 && c && c->isRed() != redmove) {
+    if(i > 0 && c && c->isRed() != is_red_) {
         move_range_.append(Mesh(x, i));
     }
     c.clear();
@@ -82,7 +82,7 @@ BlackCannon::MeshVecSptr
     do {
         i++;
     }while (i < 11 && !(c = cb[i-1][x-1]));
-    if(i < 11 && c && c->isRed() != redmove) {
+    if(i < 11 && c && c->isRed() != is_red_) {
         move_range_.append(Mesh(x, i));
     }
     return move_range_;
@@ -133,7 +133,7 @@ QString RedCannon::classname() {
 }
 
 RedCannon::MeshVecSptr
-  RedCannon::generateNextPlace(const ChessVecSptr& cb, bool redmove) {
+  RedCannon::generateNextPlace(const ChessVecSptr& cb) {
     move_range_.clear();
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
@@ -146,7 +146,7 @@ RedCannon::MeshVecSptr
     do {
         i--;
     }while (i > 0 && !(c = cb[y-1][i-1]));
-    if(i > 0 && c && c->isRed() != redmove) {
+    if(i > 0 && c && c->isRed() != is_red_) {
         move_range_.append(Mesh(i, y));
     }
     c.clear();
@@ -158,7 +158,7 @@ RedCannon::MeshVecSptr
     do {
         i++;
     }while (i < 10 && !(c = cb[y-1][i-1]));
-    if(i < 10 && c && c->isRed() != redmove) {
+    if(i < 10 && c && c->isRed() != is_red_) {
         move_range_.append(Mesh(i, y));
     }
     c.clear();
@@ -170,7 +170,7 @@ RedCannon::MeshVecSptr
     do {
         i--;
     }while (i > 0 && !(c = cb[i-1][x-1]));
-    if(i > 0 && c && c->isRed() != redmove) {
+    if(i > 0 && c && c->isRed() != is_red_) {
         move_range_.append(Mesh(x, i));
     }
     c.clear();
@@ -182,7 +182,7 @@ RedCannon::MeshVecSptr
     do {
         i++;
     }while (i < 11 && !(c = cb[i-1][x-1]));
-    if(i < 11 && c && c->isRed() != redmove) {
+    if(i < 11 && c && c->isRed() != is_red_) {
         move_range_.append(Mesh(x, i));
     }
     return move_range_;

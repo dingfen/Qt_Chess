@@ -22,6 +22,9 @@ public:
     bool isStart() {
         return is_start_;
     }
+    bool who() {
+        return is_red_move_;
+    }
     void startGame(const QString& path);
     void saveGame(const QString& path);
     void regret();
@@ -29,6 +32,9 @@ public:
     Recorder* getRecorder() {
         return recorder_.get();
     }
+
+signals:
+    void nextRound(bool);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *);
@@ -47,14 +53,20 @@ private:
     PlaceVecSptr move_vec;
     QSharedPointer<Chess>   selected_chess_;
     QSharedPointer<Recorder> recorder_;
+    // to judge if game is over
+    QSharedPointer<Chess> black_king_;
+    QSharedPointer<Chess> red_king_;
 
     void registerClass();
     void putAllChess(const QString& filepath);
     void selectValidPlace();
     void move(const Mesh&);
     void unSelectValidPlace();
+    void updateAttackRegion();
     bool isValid(const Mesh&);
-    void isCheck(const Mesh&);
+    bool isCheck();
+    void stillCheck();
+    void backOneStep();
 };
 
 #endif // CHESSSCENE_H
