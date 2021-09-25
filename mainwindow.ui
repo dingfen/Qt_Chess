@@ -112,6 +112,11 @@ border:2px;</string>
       </item>
       <item>
        <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">min-height: 100px;
+font-family: STKaiti;
+font: 60px;</string>
+        </property>
         <property name="text">
          <string>红方回合</string>
         </property>
@@ -125,6 +130,16 @@ border:2px;</string>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(222, 184, 135);
+min-height: 80px;
+font-family: STXingkai;
+font: 50px;
+border-style: outset;
+border: 2px solid;
+border-color: rgb(165, 42, 42);
+border-radius: 10px;</string>
+        </property>
         <property name="text">
          <string>开始游戏</string>
         </property>
@@ -135,6 +150,16 @@ border:2px;</string>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(222, 184, 135);
+min-height: 80px;
+font-family: STXingkai;
+font: 50px;
+border-style: outset;
+border: 2px solid;
+border-color: rgb(165, 42, 42);
+border-radius: 10px;</string>
+        </property>
         <property name="text">
          <string>悔棋</string>
         </property>
@@ -142,6 +167,16 @@ border:2px;</string>
       </item>
       <item>
        <widget class="QPushButton" name="losebutton">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(222, 184, 135);
+min-height: 80px;
+font-family: STXingkai;
+font: 50px;
+border-style: outset;
+border: 2px solid;
+border-color: rgb(165, 42, 42);
+border-radius: 10px;</string>
+        </property>
         <property name="text">
          <string>认输</string>
         </property>

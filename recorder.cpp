@@ -42,3 +42,8 @@ Recorder::Round Recorder::regret() {
     round_vec_.pop_back();
     return r;
 }
+
+void Recorder::clear() {
+    round_vec_.clear();
+    cur_round_ = 0;
+}

@@ -48,6 +48,7 @@ void MainWindow::loadGame() {
                                  QMessageBox::Ok);
     } else {
         startGame(path);
+        ui->historyboard->appendHtml("游戏加载完成");
     }
 }
 
@@ -56,6 +57,7 @@ void MainWindow::saveGame() {
     QString path = QFileDialog::getSaveFileName(this, tr("保存游戏"),
                                                 ".", tr("Game Files(*.json)"));
     scene_->saveGame(path);
+    ui->historyboard->appendHtml("游戏已经保存");
 }
 
 void MainWindow::overGame() {
@@ -70,6 +72,7 @@ void MainWindow::overGame() {
              QMessageBox::information(this, tr("游戏结束"), tr("游戏结束，红方胜利"),
                               QMessageBox::Ok);
          scene_->clear();
+         ui->historyboard->appendHtml("游戏结束");
      }
 }
 

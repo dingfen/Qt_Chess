@@ -24,6 +24,7 @@ public:
     void write(const QString& str);
     void record(const ChessVecSptr& cb, const Mesh& from, const Mesh& to, bool);
     Round regret();
+    void clear();
 
 signals:
     void recordHistory(const QString&);

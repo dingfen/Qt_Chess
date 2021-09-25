@@ -94,6 +94,7 @@ void ChessScene::clear() {
         }
     }
     move_vec.clear();
+    recorder_->clear();
     is_red_check_ = false;
     is_black_check_ = false;
     is_red_move_ = true;
