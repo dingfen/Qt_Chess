@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::init() {
-    scene_.reset(new ChessScene());
+    scene_.reset(new RehearsalScene());
     ui->chessboard->setScene(scene_.get());
     ui->chessboard->setMouseTracking(true);
 
@@ -20,7 +20,7 @@ void MainWindow::init() {
     connect(ui->startbutton, SIGNAL(clicked(bool)),
             this, SLOT(startGame()));
     connect(ui->regretbutton, &QPushButton::clicked,
-            this->scene_.get(), &ChessScene::regret);
+            this->scene_.get(), &RehearsalScene::regret);
     connect(scene_.get(), &ChessScene::nextRound,
             this, &MainWindow::nextRound);
 }

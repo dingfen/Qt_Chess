@@ -24,6 +24,7 @@ SOURCES += \
     mesh.cpp \
     pawn.cpp \
     recorder.cpp \
+    rehearsalscene.cpp \
     resourcemanager.cpp \
     rook.cpp
 
@@ -43,6 +44,7 @@ HEADERS += \
     mesh.h \
     pawn.h \
     recorder.h \
+    rehearsalscene.h \
     resourcemanager.h \
     rook.h
 

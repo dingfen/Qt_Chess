@@ -7,7 +7,7 @@
 #include <QMessageBox>
 #include "chessboard.h"
 #include "resourcemanager.h"
-#include "chessscene.h"
+#include "rehearsalscene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; class Recorder;}
@@ -33,6 +33,6 @@ private:
 
     Ui::MainWindow *ui;
     int regret_count_;
-    QSharedPointer<ChessScene> scene_;
+    QSharedPointer<RehearsalScene> scene_;
 };
 #endif // MAINWINDOW_H
