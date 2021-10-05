@@ -33,49 +33,55 @@ QString BlackRook::classname() {
     return QString("BlackRook");
 }
 
+QString BlackRook::getType() {
+    return QString("BlackRook");
+}
 
-BlackRook::MeshVecSptr
-    BlackRook::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QSharedPointer<ChessChain>
+    BlackRook::updateMovePlace(const ChessVecSptr& cb) {
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     QSharedPointer<Chess> c;
+    QSharedPointer<Chess> me = cb[y-1][x-1];
     int i = x-1;
     while (i > 0 && !(c = cb[y-1][i-1])) {
-        move_range_.append(Mesh(i, y));
+        updateChain(me, c, Mesh(i, y));
         i--;
     }
-    if (c && c->isRed() != is_red_) {
-        move_range_.append(Mesh(i, y));
+    if (c) {
+        updateChain(me, c, Mesh(i, y));
+        c.clear();
     }
-    c.clear();
+
     i = x+1;
     while (i < 10 && !(c = cb[y-1][i-1])) {
-        move_range_.append(Mesh(i, y));
+        updateChain(me, c, Mesh(i, y));
         i++;
     }
-    if (c && c->isRed() != is_red_) {
-        move_range_.append(Mesh(i, y));
+    if (c) {
+        updateChain(me, c, Mesh(i, y));
+        c.clear();
     }
-    c.clear();
+
     i = y-1;
     while (i > 0 && !(c = cb[i-1][x-1])) {
-        move_range_.append(Mesh(x, i));
+        updateChain(me, c, Mesh(x, i));
         i--;
     }
-    if (c && c->isRed() != is_red_) {
-        move_range_.append(Mesh(x, i));
+    if (c) {
+        updateChain(me, c, Mesh(x, i));
+        c.clear();
     }
-    c.clear();
+
     i = y+1;
     while (i < 11 && !(c = cb[i-1][x-1])) {
-        move_range_.append(Mesh(x, i));
+        updateChain(me, c, Mesh(x, i));
         i++;
     }
-    if (c && c->isRed() != is_red_) {
-        move_range_.append(Mesh(x, i));
+    if (c) {
+        updateChain(me, c, Mesh(x, i));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject BlackRook::toJson() {
@@ -122,48 +128,55 @@ QString RedRook::classname() {
     return QString("RedRook");
 }
 
-RedRook::MeshVecSptr
-    RedRook::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString RedRook::getType() {
+    return QString("RedRook");
+}
+
+QSharedPointer<ChessChain>
+    RedRook::updateMovePlace(const ChessVecSptr& cb) {
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
     QSharedPointer<Chess> c;
+    QSharedPointer<Chess> me = cb[y-1][x-1];
     int i = x-1;
-    while (i > 0 && (!(c = cb[y-1][i-1]))) {
-        move_range_.append(Mesh(i, y));
+    while (i > 0 && !(c = cb[y-1][i-1])) {
+        updateChain(me, c, Mesh(i, y));
         i--;
     }
-    if (c && c->isRed() != is_red_) {
-        move_range_.append(Mesh(i, y));
+    if (c) {
+        updateChain(me, c, Mesh(i, y));
+        c.clear();
     }
-    c.clear();
+
     i = x+1;
-    while (i < 10 && (!(c = cb[y-1][i-1]))) {
-        move_range_.append(Mesh(i, y));
+    while (i < 10 && !(c = cb[y-1][i-1])) {
+        updateChain(me, c, Mesh(i, y));
         i++;
     }
-    if (c && c->isRed() != is_red_) {
-        move_range_.append(Mesh(i, y));
+    if (c) {
+        updateChain(me, c, Mesh(i, y));
+        c.clear();
     }
-    c.clear();
+
     i = y-1;
-    while (i > 0 && (!(c = cb[i-1][x-1]))) {
-        move_range_.append(Mesh(x, i));
+    while (i > 0 && !(c = cb[i-1][x-1])) {
+        updateChain(me, c, Mesh(x, i));
         i--;
     }
-    if (c && c->isRed() != is_red_) {
-        move_range_.append(Mesh(x, i));
+    if (c) {
+        updateChain(me, c, Mesh(x, i));
+        c.clear();
     }
-    c.clear();
+
     i = y+1;
-    while (i < 11 && (!(c = cb[i-1][x-1]))) {
-        move_range_.append(Mesh(x, i));
+    while (i < 11 && !(c = cb[i-1][x-1])) {
+        updateChain(me, c, Mesh(x, i));
         i++;
     }
-    if (c && c->isRed() != is_red_) {
-        move_range_.append(Mesh(x, i));
+    if (c) {
+        updateChain(me, c, Mesh(x, i));
     }
-    return move_range_;
+    return chain_;
 }
 
 

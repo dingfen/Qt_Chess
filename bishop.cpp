@@ -32,38 +32,34 @@ QString BlackBishop::classname() {
     return QString("BlackBishop");
 }
 
-BlackBishop::MeshVecSptr
-  BlackBishop::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString BlackBishop::getType() {
+    return QString("BlackBishop");
+}
+
+QSharedPointer<ChessChain>
+  BlackBishop::updateMovePlace(const ChessVecSptr& cb) {
     QSharedPointer<Chess> c;
     QSharedPointer<Chess> d;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
-    if (x+2 <= 9 && y+2 < 6) {
-        if (!(d = cb[y][x]) &&
-             (!(c = cb[y+1][x+1]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x+2, y+2));
-        }
+    QSharedPointer<Chess> me = cb[y-1][x-1];
+    if (x+2 <= 9 && y+2 < 6 && !(d = cb[y][x])) {
+        c = cb[y+1][x+1];
+        updateChain(me, c, Mesh(x+2, y+2));
     }
-    if (x+2 <= 9 && y-2 > 0) {
-        if (!(d = cb[y-2][x]) &&
-             (!(c = cb[y-3][x+1]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x+2, y-2));
-        }
+    if (x+2 <= 9 && y-2 > 0 && !(d = cb[y-2][x])) {
+        c = cb[y-3][x+1];
+        updateChain(me, c, Mesh(x+2, y-2));
     }
-    if (x-2 > 0 && y+2 < 6) {
-        if (!(d = cb[y][x-2]) &&
-             (!(c = cb[y+1][x-3]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x-2, y+2));
-        }
+    if (x-2 > 0 && y+2 < 6 && !(d = cb[y][x-2])) {
+        c = cb[y+1][x-3];
+        updateChain(me, c, Mesh(x-2, y+2));
     }
-    if (x-2 > 0 && y-2 > 0) {
-        if (!(d = cb[y-2][x-2]) &&
-             (!(c = cb[y-3][x-3]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x-2, y-2));
-        }
+    if (x-2 > 0 && y-2 > 0 && !(d = cb[y-2][x-2])) {
+        c = cb[y-3][x-3];
+        updateChain(me, c, Mesh(x-2, y-2));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject BlackBishop::toJson() {
@@ -111,38 +107,34 @@ QString RedBishop::classname() {
     return QString("RedBishop");
 }
 
-RedBishop::MeshVecSptr
-  RedBishop::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString RedBishop::getType() {
+    return QString("RedBishop");
+}
+
+QSharedPointer<ChessChain>
+  RedBishop::updateMovePlace(const ChessVecSptr& cb) {
     QSharedPointer<Chess> c;
     QSharedPointer<Chess> d;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
-    if (x+2 <= 9 && y+2 < 11) {
-        if (!(d = cb[y][x]) &&
-             (!(c = cb[y+1][x+1]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x+2, y+2));
-        }
+    QSharedPointer<Chess> me = cb[y-1][x-1];
+    if (x+2 <= 9 && y+2 < 11 && !(d = cb[y][x])) {
+        c = cb[y+1][x+1];
+        updateChain(me, c, Mesh(x+2, y+2));
     }
-    if (x+2 <= 9 && y-2 > 5) {
-        if (!(d = cb[y-2][x]) &&
-             (!(c = cb[y-3][x+1]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x+2, y-2));
-        }
+    if (x+2 <= 9 && y-2 > 5 && !(d = cb[y-2][x])) {
+        c = cb[y-3][x+1];
+        updateChain(me, c, Mesh(x+2, y-2));
     }
-    if (x-2 > 0 && y+2 < 11) {
-        if (!(d = cb[y][x-2]) &&
-             (!(c = cb[y+1][x-3]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x-2, y+2));
-        }
+    if (x-2 > 0 && y+2 < 11 && !(d = cb[y][x-2])) {
+        c = cb[y+1][x-3];
+        updateChain(me, c, Mesh(x-2, y+2));
     }
-    if (x-2 > 0 && y-2 > 5) {
-        if (!(d = cb[y-2][x-2]) &&
-             (!(c = cb[y-3][x-3]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x-2, y-2));
-        }
+    if (x-2 > 0 && y-2 > 0 && !(d = cb[y-2][x-2])) {
+        c = cb[y-3][x-3];
+        updateChain(me, c, Mesh(x-2, y-2));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject RedBishop::toJson() {

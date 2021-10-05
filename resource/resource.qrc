@@ -9,8 +9,12 @@
         <file>img/savegame.png</file>
         <file>img/labeled.png</file>
         <file>img/background.jpg</file>
+        <file>img/rehearsal.png</file>
+        <file>img/saveReh.png</file>
+        <file>img/loadReh.png</file>
     </qresource>
     <qresource prefix="/game">
         <file>savegame/opening.json</file>
+        <file>AI/value_table.json</file>
     </qresource>
 </RCC>

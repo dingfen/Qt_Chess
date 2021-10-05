@@ -24,6 +24,7 @@ QString Chess::classname() {
 }
 
 void Chess::init() {
+    chain_.reset(new ChessChain);
     this->setScale(2.0);
     this->setCursor(Qt::PointingHandCursor);
     anim.reset(new QGraphicsItemAnimation);
@@ -41,4 +42,19 @@ void Chess::animate(const Mesh &m) {
     }
     tl->start();
     cur_pos_ = m;
+}
+
+void Chess::updateChain(QSharedPointer<Chess> th, QSharedPointer<Chess> ptr, const Mesh& m) {
+    if (ptr) {
+      if (ptr->is_red_ != th->is_red_) {
+        th->chain_->addAttack(ptr);
+        th->chain_->addMoveRange(m);
+        ptr->chain_->addAssaulted(th);
+      } else {
+        th->chain_->addGuards(ptr);
+        ptr->chain_->addGuardeds(th);
+      }
+    } else {
+        th->chain_->addMoveRange(m);
+    }
 }

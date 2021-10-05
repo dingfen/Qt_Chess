@@ -17,7 +17,7 @@ ChessScene::ChessScene(QObject *parent) : QGraphicsScene(parent),
 }
 
 ChessScene::~ChessScene() {
-
+    clear();
 }
 
 void ChessScene::registerClass() {
@@ -41,7 +41,7 @@ void ChessScene::registerClass() {
 void ChessScene::startGame(const QString &path) {
     is_start_ = true;
     putAllChess(path);
-    updateAttackRegion();
+    updateMovePlaces();
     recorder_->write("Load Completed!");
 }
 
@@ -73,6 +73,10 @@ void ChessScene::putAllChess(const QString& path) {
         int y = obj.value("Y").toInt();
 
         QSharedPointer<Chess> ptr(ChessFactory::createObject(classname, Mesh(x, y)));
+        if (classname == "BlackKing")
+            black_king_ = ptr;
+        if (classname == "RedKing")
+            red_king_ = ptr;
         chess_vec[y-1][x-1] = ptr;
         this->addItem(ptr.get());
     }
@@ -102,11 +106,22 @@ void ChessScene::unSelectValidPlace() {
     move_vec.clear();
 }
 
-void ChessScene::updateAttackRegion() {
+bool ChessScene::isCheck(bool turn) {
+    QSharedPointer<Chess> king = turn ? red_king_ : black_king_;
+    auto attacked_vec = king->getChain()->getAssaulteds();
+    return !attacked_vec.empty();
+}
+
+void ChessScene::updateMovePlaces() {
     for(auto &row : chess_vec)
         for(auto &chess : row) {
             if (chess)
-                chess->generateNextPlace(chess_vec);
+                chess->clearLastChain();
+        }
+    for(auto &row : chess_vec)
+        for(auto &chess : row) {
+            if (chess)
+                chess->updateMovePlace(chess_vec);
         }
 }
 

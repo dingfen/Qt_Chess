@@ -1,0 +1,46 @@
+﻿[
+    {   "classname": "BlackRook",
+        "value": [500, 6]
+    },
+    {   "classname": "BlackKnight",
+        "value": [350, 12]
+    },
+    {   "classname": "BlackCannon",
+        "value": [350, 6]
+    },
+    {   "classname": "BlackBishop",
+        "value": [250, 1]
+    },
+    {   "classname": "BlackGuard",
+        "value": [250, 1]
+    },
+    {   "classname": "BlackPawn",
+        "value": [100, 1]
+    },
+    {   "classname": "BlackKing",
+        "value": [10000, 0]
+    },
+
+
+    {   "classname": "RedRook",
+        "value": [500, 6]
+    },
+    {   "classname": "RedKnight",
+        "value": [350, 12]
+    },
+    {   "classname": "RedCannon",
+        "value": [350, 6]
+    },
+    {   "classname": "RedBishop",
+        "value": [250, 1]
+    },
+    {   "classname": "RedGuard",
+        "value": [250, 1]
+    },
+    {   "classname": "RedPawn",
+        "value": [100, 1]
+    },
+    {   "classname": "RedKing",
+        "value": [10000, 0]
+    }
+]

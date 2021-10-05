@@ -32,70 +32,50 @@ QString BlackKnight::classname() {
     return QString("BlackKnight");
 }
 
-BlackKnight::MeshVecSptr
-  BlackKnight::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString BlackKnight::getType() {
+    return QString("BlackKnight");
+}
+
+QSharedPointer<ChessChain>
+  BlackKnight::updateMovePlace(const ChessVecSptr& cb) {
     QSharedPointer<Chess> c;
     QSharedPointer<Chess> d;
-//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
-    if (y-1 > 0 && x-2 > 0) {
-        if ((!(d = cb[y-1][x-2])) &&
-              (!(c = cb[y-2][x-3]) || c->isRed() != is_red_)) {
-//            cp.reset(new ChessPlace(Mesh(x-2, y-1), 1));
-            move_range_.append(Mesh(x-2, y-1));
-        }
+    QSharedPointer<Chess> me = cb[y-1][x-1];
+    if (y-1 > 0 && x-2 > 0 && !(d = cb[y-1][x-2])) {
+        c = cb[y-2][x-3];
+        updateChain(me, c, Mesh(x-2, y-1));
     }
-    if (y+1 < 11 && x-2 > 0) {
-        if ((!(d = cb[y-1][x-2])) &&
-              (!(c = cb[y][x-3]) || c->isRed() != is_red_)) {
-//            cp.reset(new ChessPlace(Mesh(x-2, y+1), 1));
-            move_range_.append(Mesh(x-2, y+1));
-        }
+    if (y+1 < 11 && x-2 > 0 && !(d = cb[y-1][x-2])) {
+        c = cb[y][x-3];
+        updateChain(me, c, Mesh(x-2, y+1));
     }
-
-    if (y-1 > 0 && x+2 < 10) {
-        if ((!(d = cb[y-1][x])) &&
-              (!(c = cb[y-2][x+1]) || c->isRed() != is_red_)) {
-//            cp.reset(new ChessPlace(Mesh(x+2, y-1), 1));
-            move_range_.append(Mesh(x+2, y-1));
-        }
+    if (y-1 > 0 && x+2 < 10 && !(d = cb[y-1][x])) {
+        c = cb[y-2][x+1];
+        updateChain(me, c, Mesh(x+2, y-1));
     }
-    if (y+1 < 11 && x+2 < 10) {
-        if ((!(d = cb[y-1][x])) &&
-              (!(c = cb[y][x+1]) || c->isRed() != is_red_)) {
-//            cp.reset(new ChessPlace(Mesh(x+2, y+1), 1));
-            move_range_.append(Mesh(x+2, y+1));
-        }
+    if (y+1 < 11 && x+2 < 10 && !(d = cb[y-1][x])) {
+        c = cb[y][x+1];
+        updateChain(me, c, Mesh(x+2, y+1));
     }
-
-    if (y-2 > 0 && x+1 < 10) {
-        if ((!(d = cb[y-2][x-1])) &&
-              (!(c = cb[y-3][x]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x+1, y-2));
-        }
+    if (y-2 > 0 && x+1 < 10 && !(d = cb[y-2][x-1])) {
+        c = cb[y-3][x];
+        updateChain(me, c, Mesh(x+1, y-2));
     }
-    if (y-2 > 0 && x-1 > 0) {
-        if ((!(d = cb[y-2][x-1])) &&
-              (!(c = cb[y-3][x-2]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x-1, y-2));
-        }
+    if (y-2 > 0 && x-1 > 0 && !(d = cb[y-2][x-1])) {
+        c = cb[y-3][x-2];
+        updateChain(me, c, Mesh(x-1, y-2));
     }
-
-    if (y+2 < 11 && x+1 < 10) {
-        if ((!(d = cb[y][x-1])) &&
-              (!(c = cb[y+1][x]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x+1, y+2));
-        }
+    if (y+2 < 11 && x+1 < 10 && !(d = cb[y][x-1])) {
+        c = cb[y+1][x];
+        updateChain(me, c, Mesh(x+1, y+2));
     }
-    if (y+2 < 11 && x-1 > 0) {
-        if ((!(d = cb[y][x-1])) &&
-              (!(c = cb[y+1][x-2]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x-1, y+2));
-        }
+    if (y+2 < 11 && x-1 > 0 && !(d = cb[y][x-1])) {
+        c = cb[y+1][x-2];
+        updateChain(me, c, Mesh(x-1, y+2));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject BlackKnight::toJson() {
@@ -142,69 +122,50 @@ QString RedKnight::classname() {
     return QString("RedKnight");
 }
 
-RedKnight::MeshVecSptr
-  RedKnight::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString RedKnight::getType() {
+    return QString("RedKnight");
+}
+
+QSharedPointer<ChessChain>
+  RedKnight::updateMovePlace(const ChessVecSptr& cb) {
     QSharedPointer<Chess> c;
     QSharedPointer<Chess> d;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
-    if (y-1 > 0 && x-2 > 0) {
-        if ((!(d = cb[y-1][x-2])) &&
-              (!(c = cb[y-2][x-3]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x-2, y-1));
-        }
+    QSharedPointer<Chess> me = cb[y-1][x-1];
+    if (y-1 > 0 && x-2 > 0 && !(d = cb[y-1][x-2])) {
+        c = cb[y-2][x-3];
+        updateChain(me, c, Mesh(x-2, y-1));
     }
-    if (y+1 < 11 && x-2 > 0) {
-        if ((!(d = cb[y-1][x-2])) &&
-              (!(c = cb[y][x-3]) || c->isRed() != is_red_)) {
-//            cp.reset(new ChessPlace(Mesh(x-2, y+1), 1));
-            move_range_.append(Mesh(x-2, y+1));
-        }
+    if (y+1 < 11 && x-2 > 0 && !(d = cb[y-1][x-2])) {
+        c = cb[y][x-3];
+        updateChain(me, c, Mesh(x-2, y+1));
     }
-
-    if (y-1 > 0 && x+2 < 10) {
-        if ((!(d = cb[y-1][x])) &&
-              (!(c = cb[y-2][x+1]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x+2, y-1));
-        }
+    if (y-1 > 0 && x+2 < 10 && !(d = cb[y-1][x])) {
+        c = cb[y-2][x+1];
+        updateChain(me, c, Mesh(x+2, y-1));
     }
-    if (y+1 < 11 && x+2 < 10) {
-        if ((!(d = cb[y-1][x])) &&
-              (!(c = cb[y][x+1]) || c->isRed() != is_red_)) {
-//            cp.reset(new ChessPlace(Mesh(x+2, y+1), 1));
-            move_range_.append(Mesh(x+2, y+1));
-        }
+    if (y+1 < 11 && x+2 < 10 && !(d = cb[y-1][x])) {
+        c = cb[y][x+1];
+        updateChain(me, c, Mesh(x+2, y+1));
     }
-
-    if (y-2 > 0 && x+1 < 10) {
-        if ((!(d = cb[y-2][x-1])) &&
-              (!(c = cb[y-3][x]) || c->isRed() != is_red_)) {
-//            cp.reset(new ChessPlace(Mesh(x+1, y-2), 1));
-            move_range_.append(Mesh(x+1, y-2));
-        }
+    if (y-2 > 0 && x+1 < 10 && !(d = cb[y-2][x-1])) {
+        c = cb[y-3][x];
+        updateChain(me, c, Mesh(x+1, y-2));
     }
-    if (y-2 > 0 && x-1 > 0) {
-        if ((!(d = cb[y-2][x-1])) &&
-              (!(c = cb[y-3][x-2]) || c->isRed() != is_red_)) {
-//            cp.reset(new ChessPlace(Mesh(x-1, y-2), 1));
-            move_range_.append(Mesh(x-1, y-2));
-        }
+    if (y-2 > 0 && x-1 > 0 && !(d = cb[y-2][x-1])) {
+        c = cb[y-3][x-2];
+        updateChain(me, c, Mesh(x-1, y-2));
     }
-
-    if (y+2 < 11 && x+1 < 10) {
-        if ((!(d = cb[y][x-1])) &&
-              (!(c = cb[y+1][x]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x+1, y+2));
-        }
+    if (y+2 < 11 && x+1 < 10 && !(d = cb[y][x-1])) {
+        c = cb[y+1][x];
+        updateChain(me, c, Mesh(x+1, y+2));
     }
-    if (y+2 < 11 && x-1 > 0) {
-        if ((!(d = cb[y][x-1])) &&
-              (!(c = cb[y+1][x-2]) || c->isRed() != is_red_)) {
-            move_range_.append(Mesh(x-1, y+2));
-        }
+    if (y+2 < 11 && x-1 > 0 && !(d = cb[y][x-1])) {
+        c = cb[y+1][x-2];
+        updateChain(me, c, Mesh(x-1, y+2));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject RedKnight::toJson() {

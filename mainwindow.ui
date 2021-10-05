@@ -213,7 +213,16 @@ border-radius: 10px;</string>
     <addaction name="loadGameAction"/>
     <addaction name="saveGameAction"/>
    </widget>
+   <widget class="QMenu" name="menuRehearsal">
+    <property name="title">
+     <string>演练场</string>
+    </property>
+    <addaction name="newRehAction"/>
+    <addaction name="loadRehAction"/>
+    <addaction name="saveRehAction"/>
+   </widget>
    <addaction name="menuChess"/>
+   <addaction name="menuRehearsal"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="newGameAction">
@@ -262,6 +271,54 @@ border-radius: 10px;</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="rehearsalAction">
+   <property name="icon">
+    <iconset resource="resource/resource.qrc">
+     <normaloff>:/img/img/rehearsal.png</normaloff>:/img/img/rehearsal.png</iconset>
+   </property>
+   <property name="text">
+    <string>演练场</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="newRehAction">
+   <property name="icon">
+    <iconset resource="resource/resource.qrc">
+     <normaloff>:/img/img/rehearsal.png</normaloff>:/img/img/rehearsal.png</iconset>
+   </property>
+   <property name="text">
+    <string>新演练</string>
+   </property>
+   <property name="statusTip">
+    <string>开始一个人的演练</string>
+   </property>
+  </action>
+  <action name="loadRehAction">
+   <property name="icon">
+    <iconset resource="resource/resource.qrc">
+     <normaloff>:/img/img/loadReh.png</normaloff>:/img/img/loadReh.png</iconset>
+   </property>
+   <property name="text">
+    <string>载入演练</string>
+   </property>
+   <property name="statusTip">
+    <string>载入之前的演练</string>
+   </property>
+  </action>
+  <action name="saveRehAction">
+   <property name="icon">
+    <iconset resource="resource/resource.qrc">
+     <normaloff>:/img/img/saveReh.png</normaloff>:/img/img/saveReh.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存演练</string>
+   </property>
+   <property name="statusTip">
+    <string>保存当前的演练</string>
    </property>
   </action>
  </widget>
@@ -333,11 +390,28 @@ border-radius: 10px;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>newRehAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>startReh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>699</x>
+     <y>649</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>startGame()</slot>
   <slot>loadGame()</slot>
   <slot>saveGame()</slot>
   <slot>overGame()</slot>
+  <slot>startReh()</slot>
  </slots>
 </ui>

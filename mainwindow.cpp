@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),
+    : QMainWindow(parent), is_start_(false), ui(new Ui::MainWindow),
       regret_count_(3) {
     ui->setupUi(this);
     init();
@@ -10,32 +10,71 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar();
 }
 
-void MainWindow::init() {
-    scene_.reset(new RehearsalScene());
-    ui->chessboard->setScene(scene_.get());
-    ui->chessboard->setMouseTracking(true);
 
+void MainWindow::setUpConnect() {
     connect(scene_->getRecorder(), &Recorder::recordHistory,
             this, &MainWindow::writeHistory);
-    connect(ui->startbutton, SIGNAL(clicked(bool)),
-            this, SLOT(startGame()));
-    connect(ui->regretbutton, &QPushButton::clicked,
-            this->scene_.get(), &RehearsalScene::regret);
+    connect(ui->regretbutton, SIGNAL(clicked()),
+            this->scene_.get(), SLOT(regret()));
     connect(scene_.get(), &ChessScene::nextRound,
             this, &MainWindow::nextRound);
 }
 
-void MainWindow::startGame(const QString& path) {
-    if (scene_->isStart()) {
+void MainWindow::init() {
+    scene_.reset(new AIScene());
+    ui->chessboard->setScene(scene_.get());
+    ui->chessboard->setMouseTracking(true);
+    connect(ui->startbutton, SIGNAL(clicked(bool)),
+            this, SLOT(startGame()));
+}
+
+void MainWindow::_startReh(const QString& path) {
+    if(!dynamic_cast<RehearsalScene*>(scene_.get())) {
+        scene_->clear();
+        scene_.reset(new RehearsalScene());
+        ui->chessboard->setScene(scene_.get());
+        ui->chessboard->setMouseTracking(true);
+        setUpConnect();
+    }
+    ui->historyboard->appendHtml("<h1>中国象棋</h1>");
+    scene_->clear();
+    scene_->startGame(path);
+}
+
+void MainWindow::startReh(const QString& path) {
+    if (is_start_) {
         auto but = QMessageBox::information(this, tr("游戏已开始"), tr("游戏已经开始，确定要开始新的一局吗"),
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
         if (but == QMessageBox::Yes) {
-            scene_->clear();
-            scene_->startGame(path);
+            _startReh(path);
         }
     } else {
-        ui->historyboard->appendHtml("<h1>中国象棋</h1>");
-        scene_->startGame(path);
+        _startReh(path);
+    }
+}
+
+void MainWindow::_startGame(const QString &path) {
+    if(!dynamic_cast<AIScene*>(scene_.get())) {
+        scene_->clear();
+        scene_.reset(new AIScene());
+        ui->chessboard->setScene(scene_.get());
+        ui->chessboard->setMouseTracking(true);
+        setUpConnect();
+    }
+    ui->historyboard->appendHtml("<h1>中国象棋</h1>");
+    scene_->clear();
+    scene_->startGame(path);
+}
+
+void MainWindow::startGame(const QString& path) {
+    if (is_start_) {
+        auto but = QMessageBox::information(this, tr("游戏已开始"), tr("游戏已经开始，确定要开始新的一局吗"),
+                                 QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+        if (but == QMessageBox::Yes) {
+            _startGame(path);
+        }
+    } else {
+        _startGame(path);
     }
 }
 
@@ -73,6 +112,7 @@ void MainWindow::overGame() {
                               QMessageBox::Ok);
          scene_->clear();
          ui->historyboard->appendHtml("游戏结束");
+         is_start_ = false;
      }
 }
 

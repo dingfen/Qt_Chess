@@ -9,10 +9,12 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    aiscene.cpp \
     bishop.cpp \
     cannon.cpp \
     chess.cpp \
     chessboard.cpp \
+    chesschain.cpp \
     chessplace.cpp \
     chessscene.cpp \
     guard.cpp \
@@ -29,10 +31,12 @@ SOURCES += \
     rook.cpp
 
 HEADERS += \
+    aiscene.h \
     bishop.h \
     cannon.h \
     chess.h \
     chessboard.h \
+    chesschain.h \
     chessfactory.h \
     chessplace.h \
     chessscene.h \

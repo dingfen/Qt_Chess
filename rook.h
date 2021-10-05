@@ -11,8 +11,9 @@ public:
     ~BlackRook();
 
     static QString classname();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
+    QSharedPointer<ChessChain> updateMovePlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
+    QString getType() override;
 
 private:
     void init(int x, int y);
@@ -27,8 +28,9 @@ public:
     ~RedRook();
 
     static QString classname();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
+    QSharedPointer<ChessChain> updateMovePlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
+    QString getType() override;
 
 private:
     void init(int x, int y);

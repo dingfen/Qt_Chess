@@ -32,33 +32,33 @@ QString BlackGuard::classname() {
     return QString("BlackGuard");
 }
 
-BlackGuard::MeshVecSptr
-    BlackGuard::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString BlackGuard::getType() {
+    return QString("BlackGuard");
+}
+
+QSharedPointer<ChessChain>
+    BlackGuard::updateMovePlace(const ChessVecSptr& cb) {
     QSharedPointer<Chess> c;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
+    QSharedPointer<Chess> me = cb[y-1][x-1];
     if (x+1 <= 6 && y+1 <= 3) {
-        if (!(c = cb[y][x]) || c->isRed() != is_red_) {
-            move_range_.append(Mesh(x+1, y+1));
-        }
+        c = cb[y][x];
+        updateChain(me, c, Mesh(x+1, y+1));
     }
     if (x+1 <= 6 && y-1 > 0) {
-        if (!(c = cb[y-2][x]) || c->isRed() != is_red_) {
-            move_range_.append(Mesh(x+1, y-1));
-        }
+        c = cb[y-2][x];
+        updateChain(me, c, Mesh(x+1, y-1));
     }
     if (x-1 >= 4 && y+1 <= 3) {
-        if (!(c = cb[y][x-2]) || c->isRed() != is_red_) {
-            move_range_.append(Mesh(x-1, y+1));
-        }
+        c = cb[y][x-2];
+        updateChain(me, c, Mesh(x-1, y+1));
     }
     if (x-1 >= 4 && y-1 > 0) {
-        if (!(c = cb[y-2][x-2]) || c->isRed() != is_red_) {
-            move_range_.append(Mesh(x-1, y-1));
-        }
+       c = cb[y-2][x-2];
+       updateChain(me, c, Mesh(x-1, y-1));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject BlackGuard::toJson() {
@@ -105,33 +105,33 @@ QString RedGuard::classname() {
     return QString("RedGuard");
 }
 
-RedGuard::MeshVecSptr
-    RedGuard::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString RedGuard::getType() {
+    return QString("RedGuard");
+}
+
+QSharedPointer<ChessChain>
+    RedGuard::updateMovePlace(const ChessVecSptr& cb) {
     QSharedPointer<Chess> c;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
+    QSharedPointer<Chess> me = cb[y-1][x-1];
     if (x+1 <= 6 && y+1 <= 10) {
-        if (!(c = cb[y][x]) || c->isRed() != is_red_) {
-            move_range_.append(Mesh(x+1, y+1));
-        }
+        c = cb[y][x];
+        updateChain(me, c, Mesh(x+1, y+1));
     }
     if (x+1 <= 6 && y-1 >= 8) {
-        if (!(c = cb[y-2][x]) || c->isRed() != is_red_) {
-            move_range_.append(Mesh(x+1, y-1));
-        }
+        c = cb[y-2][x];
+        updateChain(me, c, Mesh(x+1, y-1));
     }
     if (x-1 >= 4 && y+1 <= 10) {
-        if (!(c = cb[y][x-2]) || c->isRed() != is_red_) {
-            move_range_.append(Mesh(x-1, y+1));
-        }
+        c = cb[y][x-2];
+        updateChain(me, c, Mesh(x-1, y+1));
     }
     if (x-1 >= 4 && y-1 >= 8) {
-        if (!(c = cb[y-2][x-2]) || c->isRed() != is_red_) {
-            move_range_.append(Mesh(x-1, y-1));
-        }
+       c = cb[y-2][x-2];
+       updateChain(me, c, Mesh(x-1, y-1));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject RedGuard::toJson() {

@@ -22,10 +22,11 @@ public:
     bool isStart() {
         return is_start_;
     }
+    bool isCheck(bool);
     bool who() {
         return is_red_move_;
     }
-    void startGame(const QString& path);
+    virtual void startGame(const QString& path);
     void saveGame(const QString& path);
     void regret();
     void clear();
@@ -41,6 +42,10 @@ protected:
     bool is_red_move_;
     bool is_regret_;
     ChessVecSptr chess_vec;
+    // to judge if game is over
+    QSharedPointer<Chess> black_king_;
+    QSharedPointer<Chess> red_king_;
+
     QSharedPointer<ChessBoard> chess_board_;
     QSharedPointer<ChessPlace> chess_place_move_to_;
     PlaceVecSptr move_vec;
@@ -51,9 +56,8 @@ protected:
     void registerClass();
     void putAllChess(const QString& filepath);
     void unSelectValidPlace();
-    void updateAttackRegion();
+    void updateMovePlaces();
     void backOneStep();
-
 };
 
 #endif // CHESSSCENE_H

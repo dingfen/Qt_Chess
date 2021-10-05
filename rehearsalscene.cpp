@@ -7,25 +7,16 @@ RehearsalScene::RehearsalScene(QObject *parent) : ChessScene(parent) {
 void RehearsalScene::startGame(const QString &path) {
     is_start_ = true;
     putAllChess(path);
-    for(auto& row : chess_vec) {
-        for(auto& ptr : row) {
-            if (dynamic_cast<BlackKing*>(ptr.get())) {
-                black_king_ = ptr;
-            }
-            if (dynamic_cast<RedKing*>(ptr.get())) {
-                red_king_ = ptr;
-            }
-        }
-    }
-    updateAttackRegion();
+    updateMovePlaces();
     recorder_->write("Load Completed!");
+    recorder_->write("<h2>Rehearsal start!</h2>");
 }
 
 void RehearsalScene::regret() {
     if (is_start_ && !is_regret_) {
         backOneStep();
         backOneStep();
-        updateAttackRegion();
+        updateMovePlaces();
         is_regret_ = true;
     }
 }
@@ -54,29 +45,10 @@ bool RehearsalScene::isValid(const Mesh& mesh) {
     return false;
 }
 
-bool RehearsalScene::isCheck() {
-    QSharedPointer<Chess> king = is_red_move_ ? red_king_ : black_king_;
-    for(auto &row : chess_vec) {
-        for(auto &c : row) {
-            if (c && c->isRed() != is_red_move_) {
-                auto region = c->attackRegion();
-                auto kingpos = king->getMesh();
-                for(auto m : region) {
-                    if (kingpos == m) {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
-    return false;
-}
-
-
 void RehearsalScene::stillCheck() {
     qDebug() << "Check!";
     backOneStep();
-    updateAttackRegion();
+    updateMovePlaces();
 }
 
 
@@ -103,8 +75,8 @@ void RehearsalScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
                 if (isValid(mpos)) {
                     unSelectValidPlace();
                     move(mpos);
-                    updateAttackRegion();
-                    if (isCheck()) {
+                    updateMovePlaces();
+                    if (isCheck(is_red_move_)) {
                         stillCheck();
                         return;
                     }

@@ -23,7 +23,7 @@ void Recorder::record(const ChessVecSptr& cb, const Mesh& from,
         r.eaten_ = nullptr;
     }
     round_vec_.append(r);
-    QString str = r.move_->chessname()+"从"+from.to_qstr()
+    QString str = r.move_->toRecordText()+"从"+from.to_qstr()
             +"至"+to.to_qstr();
     if (isred) {
         str = "<font color=\"#FF0000\">" + str + "</font>";

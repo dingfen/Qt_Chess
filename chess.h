@@ -11,11 +11,11 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QJsonObject>
 #include "chessplace.h"
+#include "chesschain.h"
 #include "resourcemanager.h"
 
 class Chess : public QGraphicsPixmapItem {
 public:
-    using MeshVecSptr=QVector<Mesh>;
     using ChessVecSptr=QVector<QVector<QSharedPointer<Chess>>>;
     explicit Chess();
     ~Chess();
@@ -25,25 +25,37 @@ public:
     Mesh getMesh() {
         return cur_pos_;
     }
-    MeshVecSptr& attackRegion() {
-        return move_range_;
+    void setMesh(const Mesh& m) {
+        cur_pos_ = m;
     }
-
-    void animate(const Mesh &);
+    QVector<Mesh>& attackRegion() {
+        return chain_->moveRange();
+    }
+    QSharedPointer<ChessChain> getChain() {
+        return chain_;
+    }
+    void clearLastChain() {
+        chain_->clear();
+    }
     bool isRed() {
         return is_red_;
     }
-    QString chessname() {
+    QString toRecordText() {
         return chess_name_;
     }
 
-    virtual MeshVecSptr generateNextPlace(const ChessVecSptr&)=0;
+    void animate(const Mesh &);
+    static void updateChain(QSharedPointer<Chess>, QSharedPointer<Chess>, const Mesh&);
+
+    virtual QSharedPointer<ChessChain>
+        updateMovePlace(const ChessVecSptr&)=0;
     virtual QJsonObject toJson()=0;
+    virtual QString getType() = 0;
     static QString classname();
 protected:
     Mesh cur_pos_;
     bool is_red_;
-    MeshVecSptr move_range_;
+    QSharedPointer<ChessChain> chain_;
     QString chess_name_;
     QSharedPointer<QGraphicsItemAnimation> anim;
     QSharedPointer<QTimeLine> tl;

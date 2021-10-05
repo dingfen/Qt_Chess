@@ -11,8 +11,9 @@ public:
     explicit BlackPawn(const Mesh&);
     ~BlackPawn();
     static QString classname();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
+    QSharedPointer<ChessChain> updateMovePlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
+    QString getType() override;
 
 private:
     void init(int x, int y);
@@ -25,8 +26,9 @@ public:
     explicit RedPawn(const Mesh&);
     ~RedPawn();
    static QString classname();
-   MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
+   QSharedPointer<ChessChain> updateMovePlace(const ChessVecSptr&) override;
    QJsonObject toJson() override;
+   QString getType() override;
 
 private:
     void init(int x, int y);

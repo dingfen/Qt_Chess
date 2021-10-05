@@ -27,38 +27,40 @@ QString BlackKing::classname() {
     return QString("BlackKing");
 }
 
-BlackKing::MeshVecSptr
-  BlackKing::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString BlackKing::getType() {
+    return QString("BlackKing");
+}
+
+QSharedPointer<ChessChain>
+  BlackKing::updateMovePlace(const ChessVecSptr& cb) {
     QSharedPointer<Chess> c;
-//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
-    if (y+1 < 4 && (!(c = cb[y][x-1]) || c->isRed() != is_red_)) {
-//        cp.reset(new ChessPlace(Mesh(x, y+1), 1));
-        move_range_.append(Mesh(x, y+1));
+    QSharedPointer<Chess> me = cb[y-1][x-1];
+    if (y+1 < 4) {
+        c = cb[y][x-1];
+        updateChain(me, c, Mesh(x, y+1));
     }
-    if (x+1 < 7 && (!(c = cb[y-1][x]) || c->isRed() != is_red_)) {
-//        cp.reset(new ChessPlace(Mesh(x+1, y), 1));
-        move_range_.append(Mesh(x+1, y));
+    if (x+1 < 7) {
+        c = cb[y-1][x];
+        updateChain(me, c, Mesh(x+1, y));
     }
-    if (x-1 > 3 && (!(c = cb[y-1][x-2]) || c->isRed() != is_red_)) {
-//        cp.reset(new ChessPlace(Mesh(x-1, y), 1));
-        move_range_.append(Mesh(x-1, y));
+    if (x-1 > 3) {
+        c = cb[y-1][x-2];
+        updateChain(me, c, Mesh(x-1, y));
     }
-    if (y-1 > 0 && (!(c = cb[y-2][x-1]) || c->isRed() != is_red_)) {
-//        cp.reset(new ChessPlace(Mesh(x, y-1), 1));
-        move_range_.append(Mesh(x, y-1));
+    if (y-1 > 0) {
+        c = cb[y-2][x-1];
+        updateChain(me, c, Mesh(x, y-1));
     }
     int i = y+1;
     while(i < 11 && !(c = cb[i-1][x-1])) {
         i++;
     }
     if (i < 11 && dynamic_cast<RedKing*>(c.get())) {
-//        cp.reset(new ChessPlace(Mesh(x, i), 1));
-        move_range_.append(Mesh(x, i));
+        updateChain(me, c, Mesh(x, i));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject BlackKing::toJson() {
@@ -100,35 +102,40 @@ QString RedKing::classname() {
     return QString("RedKing");
 }
 
-RedKing::MeshVecSptr
-  RedKing::generateNextPlace(const ChessVecSptr& cb) {
-    move_range_.clear();
+QString RedKing::getType() {
+    return QString("RedKing");
+}
+
+QSharedPointer<ChessChain>
+  RedKing::updateMovePlace(const ChessVecSptr& cb) {
     QSharedPointer<Chess> c;
-//    QSharedPointer<ChessPlace> cp;
     int x = cur_pos_.meshx();
     int y = cur_pos_.meshy();
-    if (y+1 < 11 && (!(c = cb[y][x-1]) || c->isRed() != is_red_)) {
-//        cp.reset(new ChessPlace(Mesh(x, y+1), 1));
-        move_range_.append(Mesh(x, y+1));
+    QSharedPointer<Chess> me = cb[y-1][x-1];
+    if (y+1 < 11) {
+        c = cb[y][x-1];
+        updateChain(me, c, Mesh(x, y+1));
     }
-    if (x+1 < 7 && (!(c = cb[y-1][x]) || c->isRed() != is_red_)) {
-//        cp.reset(new ChessPlace(Mesh(x+1, y), 1));
-        move_range_.append(Mesh(x+1, y));
+    if (x+1 < 7) {
+        c = cb[y-1][x];
+        updateChain(me, c, Mesh(x+1, y));
     }
-    if (x-1 > 3 && (!(c = cb[y-1][x-2]) || c->isRed() != is_red_)) {
-        move_range_.append(Mesh(x-1, y));
+    if (x-1 > 3) {
+        c = cb[y-1][x-2];
+        updateChain(me, c, Mesh(x-1, y));
     }
-    if (y-1 > 7 && (!(c = cb[y-2][x-1]) || c->isRed() != is_red_)) {
-        move_range_.append(Mesh(x, y-1));
+    if (y-1 > 7) {
+        c = cb[y-2][x-1];
+        updateChain(me, c, Mesh(x, y-1));
     }
     int i = y-1;
     while(i > 0 && !(c = cb[i-1][x-1])) {
         i--;
     }
     if (i > 0 && dynamic_cast<BlackKing*>(c.get())) {
-        move_range_.append(Mesh(x, i));
+        updateChain(me, c, Mesh(x, i));
     }
-    return move_range_;
+    return chain_;
 }
 
 QJsonObject RedKing::toJson() {

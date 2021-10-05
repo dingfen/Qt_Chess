@@ -18,6 +18,9 @@ public:
         Mesh from_;
         Mesh to_;
         QSharedPointer<Chess> eaten_;
+        Round() : id_(0), move_(nullptr),
+            from_(), to_(), eaten_(nullptr) {
+        }
     };
     using ChessVecSptr=QVector<QVector<QSharedPointer<Chess>>>;
     Recorder();

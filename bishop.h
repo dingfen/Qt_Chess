@@ -9,8 +9,9 @@ public:
     explicit BlackBishop(int, int);
     explicit BlackBishop(const Mesh&);
     ~BlackBishop();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
+    QSharedPointer<ChessChain> updateMovePlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
+    QString getType() override;
     static QString classname();
 private:
     void init(int x, int y);
@@ -22,8 +23,9 @@ public:
     explicit RedBishop(int, int);
     explicit RedBishop(const Mesh&);
     ~RedBishop();
-    MeshVecSptr generateNextPlace(const ChessVecSptr&) override;
+    QSharedPointer<ChessChain> updateMovePlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
+    QString getType() override;
     static QString classname();
 private:
     void init(int x, int y);
