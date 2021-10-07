@@ -35,6 +35,10 @@ signals:
 private:
     int cur_round_;
     QVector<Round> round_vec_;
+    const QString chess_name[15] = {
+        "", "黑将", "黑车", "黑马", "黑炮", "黑士", "黑象", "黑兵",
+        "红帅", "红车", "红马", "红炮", "红士", "红象", "红兵"
+    };
 };
 
 #endif // RECORDER_H

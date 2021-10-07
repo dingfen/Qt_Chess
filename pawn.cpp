@@ -16,7 +16,6 @@ void BlackPawn::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(300, 0, 50, 50));
     setPoint(QPoint(x, y));
-    chess_name_ = QString(cur_pos_.meshx()+'0')+" 黑卒";
 }
 
 BlackPawn::~BlackPawn() {
@@ -27,8 +26,8 @@ QString BlackPawn::classname() {
     return QString("BlackPawn");
 }
 
-QString BlackPawn::getType() {
-    return QString("BlackPawn");
+int BlackPawn::getType() {
+    return BLACKPAWN;
 }
 
 QSharedPointer<ChessChain>
@@ -87,7 +86,6 @@ RedPawn::RedPawn(const Mesh& mesh): Chess() {
 void RedPawn::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(300, 50, 50, 50));
     setPoint(QPoint(x, y));
-    chess_name_ = QString(cur_pos_.meshx()+'0') + " 红兵";
 }
 
 RedPawn::~RedPawn() {
@@ -98,8 +96,8 @@ QString RedPawn::classname() {
     return QString("RedPawn");
 }
 
-QString RedPawn::getType() {
-    return QString("RedPawn");
+int RedPawn::getType() {
+    return REDPAWN;
 }
 
 QSharedPointer<ChessChain>

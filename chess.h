@@ -14,6 +14,24 @@
 #include "chesschain.h"
 #include "resourcemanager.h"
 
+enum ChessType {
+    BLACKKING=1,
+    BLACKROOK,
+    BLACKKNIGHT,
+    BLACKCANON,
+    BLACKGUARD,
+    BLACKBISHOP,
+    BLACKPAWN,
+
+    REDKING,
+    REDROOK,
+    REDKNIGHT,
+    REDCANON,
+    REDGUARD,
+    REDBISHOP,
+    REDPAWN
+};
+
 class Chess : public QGraphicsPixmapItem {
 public:
     using ChessVecSptr=QVector<QVector<QSharedPointer<Chess>>>;
@@ -40,23 +58,19 @@ public:
     bool isRed() {
         return is_red_;
     }
-    QString toRecordText() {
-        return chess_name_;
-    }
 
     void animate(const Mesh &);
-    static void updateChain(QSharedPointer<Chess>, QSharedPointer<Chess>, const Mesh&);
-
     virtual QSharedPointer<ChessChain>
         updateMovePlace(const ChessVecSptr&)=0;
     virtual QJsonObject toJson()=0;
-    virtual QString getType() = 0;
+    virtual int getType() = 0;
+
+    static void updateChain(QSharedPointer<Chess>, QSharedPointer<Chess>, const Mesh&);
     static QString classname();
 protected:
     Mesh cur_pos_;
     bool is_red_;
     QSharedPointer<ChessChain> chain_;
-    QString chess_name_;
     QSharedPointer<QGraphicsItemAnimation> anim;
     QSharedPointer<QTimeLine> tl;
 

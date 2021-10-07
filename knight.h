@@ -11,7 +11,7 @@ public:
     ~BlackKnight();
     QSharedPointer<ChessChain> updateMovePlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
-    QString getType() override;
+    int getType() override;
     static QString classname();
 private:
     void init(int x, int y);
@@ -26,7 +26,7 @@ public:
     ~RedKnight();
     QSharedPointer<ChessChain> updateMovePlace(const ChessVecSptr&) override;
     QJsonObject toJson() override;
-    QString getType() override;
+    int getType() override;
     static QString classname();
 private:
     void init(int x, int y);

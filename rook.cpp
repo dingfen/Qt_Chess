@@ -16,12 +16,6 @@ void BlackRook::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(200, 0, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 1)
-        chess_name_ = "左黑车";
-    else if (cur_pos_.meshx() == 9)
-        chess_name_ = "右黑车";
-    else
-        chess_name_ = "黑车";
 }
 
 BlackRook::~BlackRook() {
@@ -33,8 +27,8 @@ QString BlackRook::classname() {
     return QString("BlackRook");
 }
 
-QString BlackRook::getType() {
-    return QString("BlackRook");
+int BlackRook::getType() {
+    return BLACKROOK;
 }
 
 QSharedPointer<ChessChain>
@@ -112,12 +106,6 @@ RedRook::RedRook(const Mesh& mesh): Chess() {
 void RedRook::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(200, 50, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 1)
-        chess_name_ = "左红车";
-    else if (cur_pos_.meshx() == 9)
-        chess_name_ = "右红车";
-    else
-        chess_name_ = "红车";
 }
 
 RedRook::~RedRook() {
@@ -128,8 +116,8 @@ QString RedRook::classname() {
     return QString("RedRook");
 }
 
-QString RedRook::getType() {
-    return QString("RedRook");
+int RedRook::getType() {
+    return REDROOK;
 }
 
 QSharedPointer<ChessChain>

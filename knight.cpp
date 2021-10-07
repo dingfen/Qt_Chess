@@ -16,12 +16,6 @@ void BlackKnight::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(150, 0, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 2)
-        chess_name_ = "左黑马";
-    else if (cur_pos_.meshx() == 8)
-        chess_name_ = "右黑马";
-    else
-        chess_name_ = "黑马";
 }
 
 BlackKnight::~BlackKnight() {
@@ -32,8 +26,8 @@ QString BlackKnight::classname() {
     return QString("BlackKnight");
 }
 
-QString BlackKnight::getType() {
-    return QString("BlackKnight");
+int BlackKnight::getType() {
+    return BLACKKNIGHT;
 }
 
 QSharedPointer<ChessChain>
@@ -106,12 +100,6 @@ RedKnight::RedKnight(const Mesh& mesh): Chess() {
 void RedKnight::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(150, 50, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 2)
-        chess_name_ = "左红马";
-    else if (cur_pos_.meshx() == 8)
-        chess_name_ = "右红马";
-    else
-        chess_name_ = "红马";
 }
 
 RedKnight::~RedKnight() {
@@ -122,8 +110,8 @@ QString RedKnight::classname() {
     return QString("RedKnight");
 }
 
-QString RedKnight::getType() {
-    return QString("RedKnight");
+int RedKnight::getType() {
+    return REDKNIGHT;
 }
 
 QSharedPointer<ChessChain>

@@ -16,12 +16,6 @@ void BlackBishop::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(100, 0, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 3)
-        chess_name_ = "左黑象";
-    else if (cur_pos_.meshx() == 7)
-        chess_name_ = "右黑象";
-    else
-        chess_name_ = "黑象";
 }
 
 BlackBishop::~BlackBishop() {
@@ -32,8 +26,8 @@ QString BlackBishop::classname() {
     return QString("BlackBishop");
 }
 
-QString BlackBishop::getType() {
-    return QString("BlackBishop");
+int BlackBishop::getType() {
+    return BLACKBISHOP;
 }
 
 QSharedPointer<ChessChain>
@@ -90,12 +84,6 @@ RedBishop::RedBishop(const Mesh& mesh): Chess() {
 void RedBishop::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(100, 50, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 3)
-        chess_name_ = "左红象";
-    else if (cur_pos_.meshx() == 7)
-        chess_name_ = "右红象";
-    else
-        chess_name_ = "红象";
 }
 
 RedBishop::~RedBishop() {
@@ -107,8 +95,8 @@ QString RedBishop::classname() {
     return QString("RedBishop");
 }
 
-QString RedBishop::getType() {
-    return QString("RedBishop");
+int RedBishop::getType() {
+    return REDBISHOP;
 }
 
 QSharedPointer<ChessChain>

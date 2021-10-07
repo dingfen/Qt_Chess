@@ -16,7 +16,6 @@ void BlackKing::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(0, 0, 50, 50));
     setPoint(QPoint(x, y));
-    chess_name_ = "黑将";
 }
 
 BlackKing::~BlackKing() {
@@ -27,8 +26,8 @@ QString BlackKing::classname() {
     return QString("BlackKing");
 }
 
-QString BlackKing::getType() {
-    return QString("BlackKing");
+int BlackKing::getType() {
+    return BLACKKING;
 }
 
 QSharedPointer<ChessChain>
@@ -91,7 +90,6 @@ RedKing::RedKing(const Mesh& mesh): Chess() {
 void RedKing::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(0, 50, 50, 50));
     setPoint(QPoint(x, y));
-    chess_name_ = "红帅";
 }
 
 RedKing::~RedKing() {
@@ -102,8 +100,8 @@ QString RedKing::classname() {
     return QString("RedKing");
 }
 
-QString RedKing::getType() {
-    return QString("RedKing");
+int RedKing::getType() {
+    return REDKING;
 }
 
 QSharedPointer<ChessChain>

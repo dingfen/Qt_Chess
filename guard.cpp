@@ -16,12 +16,6 @@ void BlackGuard::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(50, 0, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 4)
-        chess_name_ = "左黑士";
-    else if (cur_pos_.meshx() == 6)
-        chess_name_ = "右黑士";
-    else
-        chess_name_ = "黑士";
 }
 
 BlackGuard::~BlackGuard() {
@@ -32,8 +26,8 @@ QString BlackGuard::classname() {
     return QString("BlackGuard");
 }
 
-QString BlackGuard::getType() {
-    return QString("BlackGuard");
+int BlackGuard::getType() {
+    return BLACKGUARD;
 }
 
 QSharedPointer<ChessChain>
@@ -89,12 +83,6 @@ RedGuard::RedGuard(const Mesh& mesh): Chess() {
 void RedGuard::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(50, 50, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 4)
-        chess_name_ = "左红士";
-    else if (cur_pos_.meshx() == 6)
-        chess_name_ = "右红士";
-    else
-        chess_name_ = "红士";
 }
 
 RedGuard::~RedGuard() {
@@ -105,8 +93,8 @@ QString RedGuard::classname() {
     return QString("RedGuard");
 }
 
-QString RedGuard::getType() {
-    return QString("RedGuard");
+int RedGuard::getType() {
+    return REDGUARD;
 }
 
 QSharedPointer<ChessChain>

@@ -9,26 +9,13 @@ void AIScene::startGame(const QString &path) {
     is_start_ = true;
     putAllChess(path);
     updateMovePlaces();
-    AIinit();
+    se_.reset(new SearchEngine);
     recorder_->write("Load Completed!");
     recorder_->write("<h2>AI Game start!</h2>");
 }
 
-void AIScene::AIinit() {
-    JsonParser jp;
-    jp.openAndRead(":/game/AI/value_table.json");
-    jp.parseJson();
-    QJsonObject obj;
-    while (jp.get(&obj)) {
-        QString classname = obj.value("classname").toString();
-        auto values = obj.value("value").toArray();
-        ChessValue cv;
-        cv.base_ = values.at(0).toInt();
-        cv.flex_ = values.at(1).toInt();
-        chess_value_.insert(classname, cv);
-    }
+void AIScene::searchEngineInit() {
 
-    recorder_->write("AI initialization Completed!");
 }
 
 void AIScene::regret() {
@@ -71,6 +58,10 @@ bool AIScene::isValid(const Mesh& mesh) {
     return false;
 }
 
+bool AIScene::isGameOver() {
+    return false;
+}
+
 void AIScene::move(const Mesh& m) {
     Mesh pos = selected_chess_->getMesh();
     selected_chess_->animate(m);
@@ -98,7 +89,9 @@ void AIScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
                     is_red_move_ = !is_red_move_;
                     is_regret_ = false;
                     emit nextRound(is_red_move_);
+                    isGameOver();
                     waitForAI();
+                    isGameOver();
                 }
                 return;
             }
@@ -166,7 +159,7 @@ AIScene::RoundSptr AIScene::minMaxSearch() {
     // 2. initial value & start search
     // AI for minimize while you for maximize
     double max = -std::numeric_limits<double>::max();
-    int l = 3;
+    int l = 4;
     RoundSptr best = nullptr;
     while(!steps.empty()) {
         RoundSptr cur_step = steps.back();
@@ -200,53 +193,9 @@ void AIScene::getAllSteps(QVector<RoundSptr> *steps, bool isred) {
     }
 }
 
-double AIScene::evaluate(bool redmove) {
-    double black = 0;
-    double red = 0;
-    for(auto &row : chess_vec) {
-        for(auto &chess : row) {
-            if (chess) {
-                if (chess->isRed()) {
-                    red += getValue(chess, redmove);
-                } else {
-                    black += getValue(chess, redmove);
-                }
-            }
-        }
-    }
-    return black-red;
-}
-
-double AIScene::getValue(QSharedPointer<Chess> cp, bool redmove) {
-    auto v = chess_value_[cp->getType()];
-    auto region = cp->getChain();
-    double score = v.base_ + v.flex_ * region->getMoveRange().size();
-    auto attacks = region->getAttacks();
-    auto assaulted = region->getAssaulteds();
-    auto guards = region->getGuards();
-    for(auto& c : attacks) {
-        auto value = chess_value_[c->getType()];
-        if (c->isRed() == redmove)
-            score += (value.base_ + value.flex_ * c->attackRegion().size()) * 0.8;
-        else
-            score += (value.base_ + value.flex_ * c->attackRegion().size()) * 0.5;
-    }
-    for(auto& c : guards) {
-        auto value = chess_value_[c->getType()];
-        score += (value.base_ + value.flex_ * c->attackRegion().size()) * 0.2;
-    }
-    for(auto& c : assaulted) {
-        if (c->isRed() == redmove)
-            score -= (v.base_ + v.flex_ * cp->attackRegion().size()) * 0.1;
-        else
-            score -= (v.base_ + v.flex_ * cp->attackRegion().size()) * 0.5;
-    }
-    return score;
-}
-
-double AIScene::minSearch(int level, double cur_max) {
+int AIScene::minSearch(int level, double cur_max) {
     if (!level) {
-        return evaluate(you_move_);
+        return se_->evaluate(chess_vec, you_move_);
     } else {
         QVector<RoundSptr> steps;
         getAllSteps(&steps, you_move_);
@@ -273,9 +222,9 @@ double AIScene::minSearch(int level, double cur_max) {
 }
 
 
-double AIScene::maxSearch(int level, double cur_min) {
+int AIScene::maxSearch(int level, double cur_min) {
     if (!level) {
-        return evaluate(!you_move_);
+        return se_->evaluate(chess_vec, !you_move_);
     } else {
         QVector<RoundSptr> steps;
         getAllSteps(&steps, !you_move_);

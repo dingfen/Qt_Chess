@@ -28,7 +28,8 @@ SOURCES += \
     recorder.cpp \
     rehearsalscene.cpp \
     resourcemanager.cpp \
-    rook.cpp
+    rook.cpp \
+    searchengine.cpp
 
 HEADERS += \
     aiscene.h \
@@ -50,7 +51,8 @@ HEADERS += \
     recorder.h \
     rehearsalscene.h \
     resourcemanager.h \
-    rook.h
+    rook.h \
+    searchengine.h
 
 FORMS += \
     mainwindow.ui

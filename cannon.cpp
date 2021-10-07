@@ -16,12 +16,6 @@ void BlackCannon::init(int x, int y) {
     is_red_ = false;
     setPixmap(ResourceManager::get().chessPixmap()->copy(250, 0, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 2)
-        chess_name_ = "左黑炮";
-    else if (cur_pos_.meshx() == 8)
-        chess_name_ = "右黑炮";
-    else
-        chess_name_ = "黑炮";
 }
 
 BlackCannon::~BlackCannon() {
@@ -32,8 +26,8 @@ QString BlackCannon::classname() {
     return QString("BlackCannon");
 }
 
-QString BlackCannon::getType() {
-    return QString("BlackCannon");
+int BlackCannon::getType() {
+    return BLACKCANON;
 }
 
 QSharedPointer<ChessChain>
@@ -123,12 +117,6 @@ RedCannon::RedCannon(const Mesh& mesh): Chess() {
 void RedCannon::init(int x, int y) {
     setPixmap(ResourceManager::get().chessPixmap()->copy(250, 50, 50, 50));
     setPoint(QPoint(x, y));
-    if (cur_pos_.meshx() == 2)
-        chess_name_ = "左红炮";
-    else if (cur_pos_.meshx() == 8)
-        chess_name_ = "右红炮";
-    else
-        chess_name_ = "红炮";
 }
 
 RedCannon::~RedCannon() {
@@ -139,8 +127,8 @@ QString RedCannon::classname() {
     return QString("RedCannon");
 }
 
-QString RedCannon::getType() {
-    return QString("RedCannon");
+int RedCannon::getType() {
+    return REDCANON;
 }
 
 QSharedPointer<ChessChain>
