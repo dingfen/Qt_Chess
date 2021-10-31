@@ -12,10 +12,8 @@ void AIScene::startGame(const QString &path) {
     se_.reset(new SearchEngine);
     recorder_->write("Load Completed!");
     recorder_->write("<h2>AI Game start!</h2>");
-}
-
-void AIScene::searchEngineInit() {
-
+    connect(timer_.get(), &QTimer::timeout, this, &AIScene::runtime);
+    timer_->start(1000);
 }
 
 void AIScene::regret() {
@@ -85,13 +83,14 @@ void AIScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
                     unSelectValidPlace();
                     move(mpos);
                     updateMovePlaces();
+                    changehands();
+                    isGameOver();
 
-                    is_red_move_ = !is_red_move_;
-                    is_regret_ = false;
-                    emit nextRound(is_red_move_);
-                    isGameOver();
-                    waitForAI();
-                    isGameOver();
+                    QFuture<void> f1 = QtConcurrent::run(this, &AIScene::waitForAI);
+                    if (f1.isFinished()) {
+                        changehands();
+                        isGameOver();
+                    }
                 }
                 return;
             }
@@ -146,9 +145,6 @@ void AIScene::waitForAI() {
     selected_chess_ = r->move_;
     move(r->to_);
     updateMovePlaces();
-    is_red_move_ = !is_red_move_;
-    is_regret_ = false;
-    emit nextRound(is_red_move_);
 }
 
 AIScene::RoundSptr AIScene::minMaxSearch() {

@@ -18,6 +18,8 @@ void MainWindow::setUpConnect() {
             this->scene_.get(), SLOT(regret()));
     connect(scene_.get(), &ChessScene::nextRound,
             this, &MainWindow::nextRound);
+    connect(scene_.get(), &ChessScene::remainTime,
+            this, &MainWindow::showTime);
 }
 
 void MainWindow::init() {
@@ -26,6 +28,7 @@ void MainWindow::init() {
     ui->chessboard->setMouseTracking(true);
     connect(ui->startbutton, SIGNAL(clicked(bool)),
             this, SLOT(startGame()));
+    setUpConnect();
 }
 
 void MainWindow::_startReh(const QString& path) {
@@ -125,6 +128,10 @@ void MainWindow::nextRound(bool isred) {
         ui->label->setText("红方回合");
     else
         ui->label->setText("黑方回合");
+}
+
+void MainWindow::showTime(int time) {
+    ui->timerlabel->setText(QString::number(time));
 }
 
 MainWindow::~MainWindow() {

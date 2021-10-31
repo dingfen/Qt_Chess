@@ -10,6 +10,8 @@ void RehearsalScene::startGame(const QString &path) {
     updateMovePlaces();
     recorder_->write("Load Completed!");
     recorder_->write("<h2>Rehearsal start!</h2>");
+    connect(timer_.get(), &QTimer::timeout, this, &RehearsalScene::runtime);
+    timer_->start(1000);
 }
 
 void RehearsalScene::regret() {
@@ -80,9 +82,7 @@ void RehearsalScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
                         stillCheck();
                         return;
                     }
-                    is_red_move_ = !is_red_move_;
-                    is_regret_ = false;
-                    emit nextRound(is_red_move_);
+                    changehands();
                 }
                 return ;
             }

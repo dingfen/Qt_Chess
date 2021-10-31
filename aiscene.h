@@ -1,6 +1,8 @@
 ﻿#ifndef AISCENE_H
 #define AISCENE_H
 
+#include <QtConcurrent>
+#include <qtconcurrentrun.h>
 #include "chessscene.h"
 #include "searchengine.h"
 
@@ -18,17 +20,13 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *) override;
 
 private:
-    struct ChessValue {
-        int base_;
-        int flex_;
-    };
-
     // true means you are red
     // false means your are black
     bool you_move_;
     QSharedPointer<SearchEngine> se_;
 
-    void searchEngineInit();
+    void timeout();
+    void showtime();
     void selectValidPlace();
     bool isValid(const Mesh&);
     void move(const Mesh&);

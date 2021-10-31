@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
+#include <QTimer>
 #include "resourcemanager.h"
 #include "chessboard.h"
 #include "recorder.h"
@@ -36,11 +37,16 @@ public:
 
 signals:
     void nextRound(bool);
+    void remainTime(int);
+    void timeOut();
 
 protected:
     bool is_start_;
     bool is_red_move_;
     bool is_regret_;
+    int totalTime;
+    QSharedPointer<QTimer> timer_;
+
     ChessVecSptr chess_vec;
     // to judge if game is over
     QSharedPointer<Chess> black_king_;
@@ -54,10 +60,19 @@ protected:
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent *);
     void registerClass();
+    void changehands();
     void putAllChess(const QString& filepath);
     void unSelectValidPlace();
     void updateMovePlaces();
     void backOneStep();
+
+protected slots:
+    void runtime() {
+        if (totalTime > 0)
+            emit remainTime(totalTime--);
+        else
+            emit timeOut();
+    }
 };
 
 #endif // CHESSSCENE_H

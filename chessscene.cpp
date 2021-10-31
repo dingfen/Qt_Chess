@@ -1,8 +1,8 @@
 ﻿#include "chessscene.h"
 
 ChessScene::ChessScene(QObject *parent) : QGraphicsScene(parent),
-    is_start_(false), is_red_move_(true),
-    is_regret_(false), chess_vec(10, QVector<QSharedPointer<Chess>>(9)), chess_board_(nullptr),
+    is_start_(false), is_red_move_(true), is_regret_(false),
+    totalTime(30), chess_vec(10, QVector<QSharedPointer<Chess>>(9)), chess_board_(nullptr),
     chess_place_move_to_(nullptr), move_vec({}), selected_chess_(nullptr) {
     // no index just search all item in scene
     // apply to move add remove freq case
@@ -12,6 +12,7 @@ ChessScene::ChessScene(QObject *parent) : QGraphicsScene(parent),
     this->addItem(chess_board_.get());
     // new recorder
     recorder_.reset(new Recorder);
+    timer_.reset(new QTimer());
     // register for factory
     registerClass();
 }
@@ -59,6 +60,12 @@ void ChessScene::saveGame(const QString &path) {
     jp.writeJson(obj_vec);
 }
 
+void ChessScene::changehands() {
+    is_red_move_ = !is_red_move_;
+    is_regret_ = false;
+    totalTime = 30;
+    emit nextRound(is_red_move_);
+}
 
 void ChessScene::putAllChess(const QString& path) {
     JsonParser jp;

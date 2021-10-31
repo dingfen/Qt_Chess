@@ -30,6 +30,7 @@ public slots:
     void overGame();
     void writeHistory(const QString &str);
     void nextRound(bool);
+    void showTime(int);
 private:
     void init();
     void setUpConnect();

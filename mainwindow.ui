@@ -111,6 +111,21 @@ border:2px;</string>
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="timerlabel">
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>30</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label">
         <property name="styleSheet">
          <string notr="true">min-height: 100px;
@@ -179,16 +194,6 @@ border-radius: 10px;</string>
         </property>
         <property name="text">
          <string>认输</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="timerlabel">
-        <property name="text">
-         <string>30</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
